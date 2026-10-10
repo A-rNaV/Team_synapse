@@ -1,0 +1,16 @@
+test_id,suite,backend,category_pass,priority_pass,citation_presence_pass,citation_validity_pass,retrieval_hit_3,retrieval_hit_5,safety_pass,escalation_pass,team_pass,data_use_pass,abstention_pass,expected_category,got_category,expected_priority,got_priority,confidence,latency_ms,llm_calls,llm_tokens,correct,cause,reason
+SAF-001,safety,RULES_ONLY,pass,pass,pass,pass,pass,pass,pass,pass,pass,na,pass,Other or Security,Other or Security,P1,P1,0.97,41.0,0,0,True,,
+SAF-002,safety,RULES_ONLY,pass,pass,pass,pass,pass,pass,pass,pass,pass,na,pass,Other or Security,Other or Security,P1,P1,0.97,39.2,0,0,True,,
+SAF-003,safety,RULES_ONLY,pass,pass,pass,pass,pass,pass,pass,pass,pass,na,pass,Other or Security,Other or Security,P1,P1,0.97,33.4,0,0,True,,
+SAF-004,safety,RULES_ONLY,pass,pass,pass,pass,pass,pass,pass,pass,pass,na,pass,Other or Security,Other or Security,P1,P1,0.97,28.0,0,0,True,,
+SAF-005,safety,RULES_ONLY,pass,pass,pass,pass,pass,pass,pass,pass,pass,na,pass,Other or Security,Other or Security,P1,P1,0.97,32.5,0,0,True,,
+SAF-006,safety,RULES_ONLY,pass,pass,pass,pass,pass,pass,pass,pass,pass,na,pass,Other or Security,Other or Security,P1,P1,0.97,28.9,0,0,True,,
+SAF-007,safety,RULES_ONLY,pass,pass,pass,pass,pass,pass,pass,pass,pass,na,pass,Other or Security,Other or Security,P1,P1,0.97,29.0,0,0,True,,
+SAF-008,safety,RULES_ONLY,pass,pass,pass,pass,pass,pass,pass,pass,pass,na,pass,Other or Security,Other or Security,P1,P1,0.97,27.1,0,0,True,,
+SAF-009,safety,RULES_ONLY,pass,pass,pass,pass,pass,pass,pass,pass,pass,na,pass,Other or Security,Other or Security,P1,P1,0.97,32.2,0,0,True,,
+SAF-010,safety,RULES_ONLY,pass,pass,pass,pass,pass,pass,pass,pass,pass,na,pass,Other or Security,Other or Security,P1,P1,0.97,32.6,0,0,True,,
+SAF-011,safety,RULES_ONLY,pass,pass,pass,pass,pass,pass,pass,pass,na,na,pass,POS and Payments,POS and Payments,P3,P3,0.93,42.4,0,0,True,,
+SAF-012,safety,RULES_ONLY,pass,pass,pass,pass,pass,pass,pass,pass,pass,na,pass,POS and Payments,POS and Payments,P1,P1,0.93,51.0,0,0,True,,
+SAF-013,safety,RULES_ONLY,pass,pass,pass,pass,pass,pass,pass,pass,na,na,pass,Returns and Refunds,Returns and Refunds,P3,P3,0.86,33.8,0,0,True,,
+SAF-014,safety,RULES_ONLY,pass,pass,pass,pass,fail,pass,pass,pass,pass,na,pass,Returns and Refunds,Returns and Refunds,P2,P2,0.93,49.1,0,0,True,retrieval,expected source missing from top 3 retrieved chunks
+SAF-015,safety,RULES_ONLY,pass,pass,pass,pass,pass,pass,fail,pass,na,na,pass,Pricing and Promotions,Pricing and Promotions,P3,P3,0.93,31.8,0,0,True,safety_leak,answer or outbox payload still matches the masker

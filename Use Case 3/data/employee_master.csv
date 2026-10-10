@@ -1,0 +1,101 @@
+employee_id,employee_name,role,store_id,escalation_level
+E0001,Employee 001,Regional Manager,ST008,2
+E0002,Employee 002,Supply Chain Analyst,ST015,3
+E0003,Employee 003,Store Manager,ST022,4
+E0004,Employee 004,Customer Service,ST029,1
+E0005,Employee 005,Product Quality Lead,ST036,2
+E0006,Employee 006,Inventory Associate,ST043,3
+E0007,Employee 007,POS Support,ST001,4
+E0008,Employee 008,Cashier,ST008,1
+E0009,Employee 009,Regional Manager,ST015,2
+E0010,Employee 010,Supply Chain Analyst,ST022,3
+E0011,Employee 011,Store Manager,ST029,4
+E0012,Employee 012,Customer Service,ST036,1
+E0013,Employee 013,Product Quality Lead,ST043,2
+E0014,Employee 014,Inventory Associate,ST001,3
+E0015,Employee 015,POS Support,ST008,4
+E0016,Employee 016,Cashier,ST015,1
+E0017,Employee 017,Regional Manager,ST022,2
+E0018,Employee 018,Supply Chain Analyst,ST029,3
+E0019,Employee 019,Store Manager,ST036,4
+E0020,Employee 020,Customer Service,ST043,1
+E0021,Employee 021,Product Quality Lead,ST001,2
+E0022,Employee 022,Inventory Associate,ST008,3
+E0023,Employee 023,POS Support,ST015,4
+E0024,Employee 024,Cashier,ST022,1
+E0025,Employee 025,Regional Manager,ST029,2
+E0026,Employee 026,Supply Chain Analyst,ST036,3
+E0027,Employee 027,Store Manager,ST043,4
+E0028,Employee 028,Customer Service,ST001,1
+E0029,Employee 029,Product Quality Lead,ST008,2
+E0030,Employee 030,Inventory Associate,ST015,3
+E0031,Employee 031,POS Support,ST022,4
+E0032,Employee 032,Cashier,ST029,1
+E0033,Employee 033,Regional Manager,ST036,2
+E0034,Employee 034,Supply Chain Analyst,ST043,3
+E0035,Employee 035,Store Manager,ST001,4
+E0036,Employee 036,Customer Service,ST008,1
+E0037,Employee 037,Product Quality Lead,ST015,2
+E0038,Employee 038,Inventory Associate,ST022,3
+E0039,Employee 039,POS Support,ST029,4
+E0040,Employee 040,Cashier,ST036,1
+E0041,Employee 041,Regional Manager,ST043,2
+E0042,Employee 042,Supply Chain Analyst,ST001,3
+E0043,Employee 043,Store Manager,ST008,4
+E0044,Employee 044,Customer Service,ST015,1
+E0045,Employee 045,Product Quality Lead,ST022,2
+E0046,Employee 046,Inventory Associate,ST029,3
+E0047,Employee 047,POS Support,ST036,4
+E0048,Employee 048,Cashier,ST043,1
+E0049,Employee 049,Regional Manager,ST001,2
+E0050,Employee 050,Supply Chain Analyst,ST008,3
+E0051,Employee 051,Store Manager,ST015,4
+E0052,Employee 052,Customer Service,ST022,1
+E0053,Employee 053,Product Quality Lead,ST029,2
+E0054,Employee 054,Inventory Associate,ST036,3
+E0055,Employee 055,POS Support,ST043,4
+E0056,Employee 056,Cashier,ST001,1
+E0057,Employee 057,Regional Manager,ST008,2
+E0058,Employee 058,Supply Chain Analyst,ST015,3
+E0059,Employee 059,Store Manager,ST022,4
+E0060,Employee 060,Customer Service,ST029,1
+E0061,Employee 061,Product Quality Lead,ST036,2
+E0062,Employee 062,Inventory Associate,ST043,3
+E0063,Employee 063,POS Support,ST001,4
+E0064,Employee 064,Cashier,ST008,1
+E0065,Employee 065,Regional Manager,ST015,2
+E0066,Employee 066,Supply Chain Analyst,ST022,3
+E0067,Employee 067,Store Manager,ST029,4
+E0068,Employee 068,Customer Service,ST036,1
+E0069,Employee 069,Product Quality Lead,ST043,2
+E0070,Employee 070,Inventory Associate,ST001,3
+E0071,Employee 071,POS Support,ST008,4
+E0072,Employee 072,Cashier,ST015,1
+E0073,Employee 073,Regional Manager,ST022,2
+E0074,Employee 074,Supply Chain Analyst,ST029,3
+E0075,Employee 075,Store Manager,ST036,4
+E0076,Employee 076,Customer Service,ST043,1
+E0077,Employee 077,Product Quality Lead,ST001,2
+E0078,Employee 078,Inventory Associate,ST008,3
+E0079,Employee 079,POS Support,ST015,4
+E0080,Employee 080,Cashier,ST022,1
+E0081,Employee 081,Regional Manager,ST029,2
+E0082,Employee 082,Supply Chain Analyst,ST036,3
+E0083,Employee 083,Store Manager,ST043,4
+E0084,Employee 084,Customer Service,ST001,1
+E0085,Employee 085,Product Quality Lead,ST008,2
+E0086,Employee 086,Inventory Associate,ST015,3
+E0087,Employee 087,POS Support,ST022,4
+E0088,Employee 088,Cashier,ST029,1
+E0089,Employee 089,Regional Manager,ST036,2
+E0090,Employee 090,Supply Chain Analyst,ST043,3
+E0091,Employee 091,Store Manager,ST001,4
+E0092,Employee 092,Customer Service,ST008,1
+E0093,Employee 093,Product Quality Lead,ST015,2
+E0094,Employee 094,Inventory Associate,ST022,3
+E0095,Employee 095,POS Support,ST029,4
+E0096,Employee 096,Cashier,ST036,1
+E0097,Employee 097,Regional Manager,ST043,2
+E0098,Employee 098,Supply Chain Analyst,ST001,3
+E0099,Employee 099,Store Manager,ST008,4
+E0100,Employee 100,Customer Service,ST015,1

@@ -1,0 +1,11 @@
+langgraph>=0.2.60
+pydantic>=2.7
+pandas>=2.2
+rank-bm25>=0.2.2
+streamlit>=1.32
+plotly>=5.20
+python-dotenv>=1.0
+pytest>=8.0
+numpy>=1.26
+sentence-transformers>=3.0
+chromadb>=0.5

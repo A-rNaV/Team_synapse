@@ -1,0 +1,161 @@
+return_id,created_ts,store_id,sku,reason,refund_amount_inr,receipt_present,status,notes
+RQ-001,2026-10-10 08:40,ST001,SKU2003,Football seam split,1099,Yes,Open,Quality review
+RQ-002,2026-10-10 09:20,ST006,SKU5002,Treadmill belt slipped during demo,24999,Yes,Open,Safety escalation
+RQ-003,2026-10-09 18:10,ST001,SKU2003,Football lost air quickly,1099,Yes,Open,Repeated football complaint
+RQ-004,2026-10-08 12:30,ST006,SKU2003,Football seam split,1099,No,Open,Possible batch issue
+RQ-005,2026-10-10 10:05,ST004,SKU5002,Treadmill damaged no receipt,24999,No,Open,Manager approval threshold
+RQ-006,2026-10-10 10:55,ST004,SKU5003,Exercise bike damaged no receipt,17999,No,Open,Manager approval threshold
+RQ-007,2026-10-09 20:20,ST001,SKU5001,Gym gloves return with receipt,799,Yes,Closed,Standard return
+RQ-008,2026-10-10 11:35,ST005,SKU2003,Price mismatch complaint,200,Yes,Open,Customer recovery review
+RQ-009,2026-10-01 18:39,ST015,SKU8246,Price mismatch complaint,1765,Yes,Closed,Manager review
+RQ-010,2026-09-30 09:50,ST022,SKU8275,Quality complaint,6782,Yes,Open,Standard processing
+RQ-011,2026-09-29 10:01,ST029,SKU8304,Customer exchange,1019,Yes,Open,Standard processing
+RQ-012,2026-09-28 11:12,ST036,SKU8333,Wrong size,6036,No,Closed,Standard processing
+RQ-013,2026-09-27 12:23,ST043,SKU8362,Wrong size,473,Yes,Open,Standard processing
+RQ-014,2026-09-26 13:34,ST001,SKU8391,Damaged packaging,5490,Yes,Open,Standard processing
+RQ-015,2026-09-25 14:45,ST008,SKU8420,Wrong size,1007,Yes,Closed,Standard processing
+RQ-016,2026-09-24 15:56,ST015,SKU8449,Quality complaint,16844,No,Open,Standard processing
+RQ-017,2026-09-23 16:07,ST022,SKU8478,Damaged packaging,12361,Yes,Open,Standard processing
+RQ-018,2026-09-22 17:18,ST029,SKU1003,Wrong size,2499,Yes,Closed,Manager review
+RQ-019,2026-09-21 18:29,ST036,SKU8016,Quality complaint,3795,Yes,Open,Standard processing
+RQ-020,2026-09-20 09:40,ST043,SKU8045,Damaged packaging,8812,No,Open,Standard processing
+RQ-021,2026-09-19 10:51,ST001,SKU8074,Wrong size,2699,Yes,Closed,Standard processing
+RQ-022,2026-09-18 11:02,ST008,SKU8103,Customer exchange,7716,Yes,Open,Standard processing
+RQ-023,2026-09-17 12:13,ST015,SKU8132,No-receipt return,2603,Yes,Open,Standard processing
+RQ-024,2026-09-16 13:24,ST022,SKU8161,Wrong size,7620,No,Closed,Standard processing
+RQ-025,2026-09-15 14:35,ST029,SKU8190,Price mismatch complaint,1907,Yes,Open,Standard processing
+RQ-026,2026-09-14 15:46,ST036,SKU8219,Customer exchange,6924,Yes,Open,Standard processing
+RQ-027,2026-09-13 16:57,ST043,SKU8248,Customer exchange,2111,Yes,Closed,Manager review
+RQ-028,2026-09-12 17:08,ST001,SKU8277,Damaged packaging,7128,No,Open,Standard processing
+RQ-029,2026-09-11 18:19,ST008,SKU8306,No-receipt return,1365,Yes,Open,Standard processing
+RQ-030,2026-09-10 09:30,ST015,SKU8335,Wrong size,6382,Yes,Closed,Standard processing
+RQ-031,2026-09-09 10:41,ST022,SKU8364,Quality complaint,819,Yes,Open,Standard processing
+RQ-032,2026-09-08 11:52,ST029,SKU8393,Customer exchange,5836,No,Open,Standard processing
+RQ-033,2026-09-07 12:03,ST036,SKU8422,Wrong size,12173,Yes,Closed,Standard processing
+RQ-034,2026-09-06 13:14,ST043,SKU8451,Price mismatch complaint,17190,Yes,Open,Standard processing
+RQ-035,2026-10-10 14:25,ST001,SKU8480,Quality complaint,12707,Yes,Open,Standard processing
+RQ-036,2026-10-09 15:36,ST008,SKU2001,Price mismatch complaint,699,No,Closed,Manager review
+RQ-037,2026-10-08 16:47,ST015,SKU8018,No-receipt return,4141,Yes,Open,Standard processing
+RQ-038,2026-10-07 17:58,ST022,SKU8047,Price mismatch complaint,9158,Yes,Open,Standard processing
+RQ-039,2026-10-06 18:09,ST029,SKU8076,Wrong size,3045,Yes,Closed,Standard processing
+RQ-040,2026-10-05 09:20,ST036,SKU8105,Price mismatch complaint,8062,No,Open,Standard processing
+RQ-041,2026-10-04 10:31,ST043,SKU8134,Price mismatch complaint,2949,Yes,Open,Standard processing
+RQ-042,2026-10-03 11:42,ST001,SKU8163,Wrong size,7966,Yes,Closed,Standard processing
+RQ-043,2026-10-02 12:53,ST008,SKU8192,Quality complaint,2253,Yes,Open,Standard processing
+RQ-044,2026-10-01 13:04,ST015,SKU8221,Wrong size,7270,No,Open,Standard processing
+RQ-045,2026-09-30 14:15,ST022,SKU8250,Damaged packaging,2457,Yes,Closed,Manager review
+RQ-046,2026-09-29 15:26,ST029,SKU8279,Quality complaint,7474,Yes,Open,Standard processing
+RQ-047,2026-09-28 16:37,ST036,SKU8308,Price mismatch complaint,1711,Yes,Open,Standard processing
+RQ-048,2026-09-27 17:48,ST043,SKU8337,Customer exchange,6728,No,Closed,Standard processing
+RQ-049,2026-09-26 18:59,ST001,SKU8366,No-receipt return,1165,Yes,Open,Standard processing
+RQ-050,2026-09-25 09:10,ST008,SKU8395,No-receipt return,6182,Yes,Open,Standard processing
+RQ-051,2026-09-24 10:21,ST015,SKU8424,Quality complaint,12519,Yes,Closed,Standard processing
+RQ-052,2026-09-23 11:32,ST022,SKU8453,Damaged packaging,17536,No,Open,Standard processing
+RQ-053,2026-09-22 12:43,ST029,SKU8482,Wrong size,1973,Yes,Open,Standard processing
+RQ-054,2026-09-21 13:54,ST036,SKU2003,Damaged packaging,1099,Yes,Closed,Manager review
+RQ-055,2026-09-20 14:05,ST043,SKU8020,Quality complaint,4487,Yes,Open,Standard processing
+RQ-056,2026-09-19 15:16,ST001,SKU8049,Quality complaint,9504,No,Open,Standard processing
+RQ-057,2026-09-18 16:27,ST008,SKU8078,No-receipt return,3391,Yes,Closed,Standard processing
+RQ-058,2026-09-17 17:38,ST015,SKU8107,No-receipt return,8408,Yes,Open,Standard processing
+RQ-059,2026-09-16 18:49,ST022,SKU8136,Price mismatch complaint,3295,Yes,Open,Standard processing
+RQ-060,2026-09-15 09:00,ST029,SKU8165,Customer exchange,8312,No,Closed,Standard processing
+RQ-061,2026-09-14 10:11,ST036,SKU8194,Price mismatch complaint,2599,Yes,Open,Standard processing
+RQ-062,2026-09-13 11:22,ST043,SKU8223,No-receipt return,7616,Yes,Open,Standard processing
+RQ-063,2026-09-12 12:33,ST001,SKU8252,No-receipt return,2803,Yes,Closed,Manager review
+RQ-064,2026-09-11 13:44,ST008,SKU8281,No-receipt return,7820,No,Open,Standard processing
+RQ-065,2026-09-10 14:55,ST015,SKU8310,Damaged packaging,2057,Yes,Open,Standard processing
+RQ-066,2026-09-09 15:06,ST022,SKU8339,Customer exchange,7074,Yes,Closed,Standard processing
+RQ-067,2026-09-08 16:17,ST029,SKU8368,Price mismatch complaint,1511,Yes,Open,Standard processing
+RQ-068,2026-09-07 17:28,ST036,SKU8397,Wrong size,6528,No,Open,Standard processing
+RQ-069,2026-09-06 18:39,ST043,SKU8426,No-receipt return,12865,Yes,Closed,Standard processing
+RQ-070,2026-10-10 09:50,ST001,SKU8455,Damaged packaging,17882,Yes,Open,Standard processing
+RQ-071,2026-10-09 10:01,ST008,SKU8484,Wrong size,2319,Yes,Open,Standard processing
+RQ-072,2026-10-08 11:12,ST015,SKU3002,Customer exchange,899,No,Closed,Manager review
+RQ-073,2026-10-07 12:23,ST022,SKU8022,Quality complaint,4833,Yes,Open,Standard processing
+RQ-074,2026-10-06 13:34,ST029,SKU8051,Customer exchange,9850,Yes,Open,Standard processing
+RQ-075,2026-10-05 14:45,ST036,SKU8080,Damaged packaging,3737,Yes,Closed,Standard processing
+RQ-076,2026-10-04 15:56,ST043,SKU8109,No-receipt return,8754,No,Open,Standard processing
+RQ-077,2026-10-03 16:07,ST001,SKU8138,Price mismatch complaint,3641,Yes,Open,Standard processing
+RQ-078,2026-10-02 17:18,ST008,SKU8167,Wrong size,8658,Yes,Closed,Standard processing
+RQ-079,2026-10-01 18:29,ST015,SKU8196,Wrong size,2945,Yes,Open,Standard processing
+RQ-080,2026-09-30 09:40,ST022,SKU8225,Price mismatch complaint,7962,No,Open,Standard processing
+RQ-081,2026-09-29 10:51,ST029,SKU8254,Price mismatch complaint,3149,Yes,Closed,Manager review
+RQ-082,2026-09-28 11:02,ST036,SKU8283,No-receipt return,8166,Yes,Open,Standard processing
+RQ-083,2026-09-27 12:13,ST043,SKU8312,Damaged packaging,2403,Yes,Open,Standard processing
+RQ-084,2026-09-26 13:24,ST001,SKU8341,Wrong size,7420,No,Closed,Standard processing
+RQ-085,2026-09-25 14:35,ST008,SKU8370,Customer exchange,1857,Yes,Open,Standard processing
+RQ-086,2026-09-24 15:46,ST015,SKU8399,Price mismatch complaint,6874,Yes,Open,Standard processing
+RQ-087,2026-09-23 16:57,ST022,SKU8428,No-receipt return,13211,Yes,Closed,Standard processing
+RQ-088,2026-09-22 17:08,ST029,SKU8457,Price mismatch complaint,18228,No,Open,Standard processing
+RQ-089,2026-09-21 18:19,ST036,SKU8486,Damaged packaging,2665,Yes,Open,Standard processing
+RQ-090,2026-09-20 09:30,ST043,SKU4002,No-receipt return,1499,Yes,Closed,Manager review
+RQ-091,2026-09-19 10:41,ST001,SKU8024,Customer exchange,5179,Yes,Open,Standard processing
+RQ-092,2026-09-18 11:52,ST008,SKU8053,No-receipt return,10196,No,Open,Standard processing
+RQ-093,2026-09-17 12:03,ST015,SKU8082,Price mismatch complaint,4083,Yes,Closed,Standard processing
+RQ-094,2026-09-16 13:14,ST022,SKU8111,No-receipt return,9100,Yes,Open,Standard processing
+RQ-095,2026-09-15 14:25,ST029,SKU8140,Wrong size,3987,Yes,Open,Standard processing
+RQ-096,2026-09-14 15:36,ST036,SKU8169,Damaged packaging,9004,No,Closed,Standard processing
+RQ-097,2026-09-13 16:47,ST043,SKU8198,Price mismatch complaint,3291,Yes,Open,Standard processing
+RQ-098,2026-09-12 17:58,ST001,SKU8227,Wrong size,8308,Yes,Open,Standard processing
+RQ-099,2026-09-11 18:09,ST008,SKU8256,No-receipt return,3495,Yes,Closed,Manager review
+RQ-100,2026-09-10 09:20,ST015,SKU8285,Damaged packaging,8512,No,Open,Standard processing
+RQ-101,2026-09-09 10:31,ST022,SKU8314,No-receipt return,2749,Yes,Open,Standard processing
+RQ-102,2026-09-08 11:42,ST029,SKU8343,Damaged packaging,7766,Yes,Closed,Standard processing
+RQ-103,2026-09-07 12:53,ST036,SKU8372,Quality complaint,2203,Yes,Open,Standard processing
+RQ-104,2026-09-06 13:04,ST043,SKU8401,Customer exchange,7220,No,Open,Standard processing
+RQ-105,2026-10-10 14:15,ST001,SKU8430,Quality complaint,13557,Yes,Closed,Standard processing
+RQ-106,2026-10-09 15:26,ST008,SKU8459,Wrong size,18574,Yes,Open,Standard processing
+RQ-107,2026-10-08 16:37,ST015,SKU8488,Quality complaint,3011,Yes,Open,Standard processing
+RQ-108,2026-10-07 17:48,ST022,SKU5002,Quality complaint,24999,No,Closed,Manager review
+RQ-109,2026-10-06 18:59,ST029,SKU8026,Damaged packaging,5525,Yes,Open,Standard processing
+RQ-110,2026-10-05 09:10,ST036,SKU8055,Customer exchange,10542,Yes,Open,Standard processing
+RQ-111,2026-10-04 10:21,ST043,SKU8084,No-receipt return,4429,Yes,Closed,Standard processing
+RQ-112,2026-10-03 11:32,ST001,SKU8113,Price mismatch complaint,9446,No,Open,Standard processing
+RQ-113,2026-10-02 12:43,ST008,SKU8142,Customer exchange,4333,Yes,Open,Standard processing
+RQ-114,2026-10-01 13:54,ST015,SKU8171,Quality complaint,9350,Yes,Closed,Standard processing
+RQ-115,2026-09-30 14:05,ST022,SKU8200,Wrong size,3637,Yes,Open,Standard processing
+RQ-116,2026-09-29 15:16,ST029,SKU8229,No-receipt return,8654,No,Open,Standard processing
+RQ-117,2026-09-28 16:27,ST036,SKU8258,Damaged packaging,3841,Yes,Closed,Manager review
+RQ-118,2026-09-27 17:38,ST043,SKU8287,Damaged packaging,8858,Yes,Open,Standard processing
+RQ-119,2026-09-26 18:49,ST001,SKU8316,Damaged packaging,3095,Yes,Open,Standard processing
+RQ-120,2026-09-25 09:00,ST008,SKU8345,Price mismatch complaint,8112,No,Closed,Standard processing
+RQ-121,2026-09-24 10:11,ST015,SKU8374,Wrong size,2549,Yes,Open,Standard processing
+RQ-122,2026-09-23 11:22,ST022,SKU8403,Customer exchange,7566,Yes,Open,Standard processing
+RQ-123,2026-09-22 12:33,ST029,SKU8432,Wrong size,13903,Yes,Closed,Standard processing
+RQ-124,2026-09-21 13:44,ST036,SKU8461,Wrong size,18920,No,Open,Standard processing
+RQ-125,2026-09-20 14:55,ST043,SKU8490,Price mismatch complaint,3357,Yes,Open,Standard processing
+RQ-126,2026-09-19 15:06,ST001,SKU6001,Wrong size,3999,Yes,Closed,Manager review
+RQ-127,2026-09-18 16:17,ST008,SKU8028,Damaged packaging,5871,Yes,Open,Standard processing
+RQ-128,2026-09-17 17:28,ST015,SKU8057,Quality complaint,1388,No,Open,Standard processing
+RQ-129,2026-09-16 18:39,ST022,SKU8086,Quality complaint,4775,Yes,Closed,Standard processing
+RQ-130,2026-09-15 09:50,ST029,SKU8115,Damaged packaging,9792,Yes,Open,Standard processing
+RQ-131,2026-09-14 10:01,ST036,SKU8144,Wrong size,4679,Yes,Open,Standard processing
+RQ-132,2026-09-13 11:12,ST043,SKU8173,Damaged packaging,9696,No,Closed,Standard processing
+RQ-133,2026-09-12 12:23,ST001,SKU8202,No-receipt return,3983,Yes,Open,Standard processing
+RQ-134,2026-09-11 13:34,ST008,SKU8231,Price mismatch complaint,9000,Yes,Open,Standard processing
+RQ-135,2026-09-10 14:45,ST015,SKU8260,Quality complaint,4187,Yes,Closed,Manager review
+RQ-136,2026-09-09 15:56,ST022,SKU8289,Damaged packaging,9204,No,Open,Standard processing
+RQ-137,2026-09-08 16:07,ST029,SKU8318,Damaged packaging,3441,Yes,Open,Standard processing
+RQ-138,2026-09-07 17:18,ST036,SKU8347,Quality complaint,8458,Yes,Closed,Standard processing
+RQ-139,2026-09-06 18:29,ST043,SKU8376,No-receipt return,2895,Yes,Open,Standard processing
+RQ-140,2026-10-10 09:40,ST001,SKU8405,Damaged packaging,7912,No,Open,Standard processing
+RQ-141,2026-10-09 10:51,ST008,SKU8434,Wrong size,14249,Yes,Closed,Standard processing
+RQ-142,2026-10-08 11:02,ST015,SKU8463,Damaged packaging,19266,Yes,Open,Standard processing
+RQ-143,2026-10-07 12:13,ST022,SKU8492,Price mismatch complaint,3703,Yes,Open,Standard processing
+RQ-144,2026-10-06 13:24,ST029,SKU8001,Customer exchange,1200,No,Closed,Manager review
+RQ-145,2026-10-05 14:35,ST036,SKU8030,Customer exchange,6217,Yes,Open,Standard processing
+RQ-146,2026-10-04 15:46,ST043,SKU8059,Quality complaint,1734,Yes,Open,Standard processing
+RQ-147,2026-10-03 16:57,ST001,SKU8088,Price mismatch complaint,5121,Yes,Closed,Standard processing
+RQ-148,2026-10-02 17:08,ST008,SKU8117,Quality complaint,638,No,Open,Standard processing
+RQ-149,2026-10-01 18:19,ST015,SKU8146,Customer exchange,5025,Yes,Open,Standard processing
+RQ-150,2026-09-30 09:30,ST022,SKU8175,No-receipt return,10042,Yes,Closed,Standard processing
+RQ-151,2026-09-29 10:41,ST029,SKU8204,Quality complaint,4329,Yes,Open,Standard processing
+RQ-152,2026-09-28 11:52,ST036,SKU8233,Quality complaint,9346,No,Open,Standard processing
+RQ-153,2026-09-27 12:03,ST043,SKU8262,Damaged packaging,4533,Yes,Closed,Manager review
+RQ-154,2026-09-26 13:14,ST001,SKU8291,Damaged packaging,9550,Yes,Open,Standard processing
+RQ-155,2026-09-25 14:25,ST008,SKU8320,Damaged packaging,3787,Yes,Open,Standard processing
+RQ-156,2026-09-24 15:36,ST015,SKU8349,Price mismatch complaint,8804,No,Closed,Standard processing
+RQ-157,2026-09-23 16:47,ST022,SKU8378,Damaged packaging,3241,Yes,Open,Standard processing
+RQ-158,2026-09-22 17:58,ST029,SKU8407,Wrong size,8258,Yes,Open,Standard processing
+RQ-159,2026-09-21 18:09,ST036,SKU8436,Customer exchange,14595,Yes,Closed,Standard processing
+RQ-160,2026-09-20 09:20,ST043,SKU8465,Wrong size,19612,No,Open,Standard processing

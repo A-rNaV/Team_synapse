@@ -1,0 +1,16 @@
+vendor_id,name,on_time_rate,fill_rate,effective_from,status,primary_category
+V001,Jalandhar Willow Works,0.82,0.68,2026-07-01,Watch,Cricket
+V002,North Guard Sports,0.91,0.94,2026-06-15,Active,Cricket
+V003,Punjab Ball Makers,0.88,0.86,2026-05-01,Watch,Football
+V004,ProShield Equipment,0.79,0.72,2026-08-01,Watch,Protective Gear
+V005,CourtCraft Sports,0.88,0.9,2026-04-20,Active,Badminton
+V006,FitGrip Accessories,0.95,0.98,2026-03-10,Active,Fitness
+V007,ActiveFit Machines,0.86,0.89,2026-01-12,Active,Fitness Equipment
+V008,RunWay Footwear,0.92,0.95,2026-02-18,Active,Retail Footwear
+V009,Jalandhar Tennis Supplies,0.9,0.88,2026-03-01,Active,Tennis
+V010,HockeyPro Punjab,0.87,0.91,2026-05-12,Active,Hockey
+V011,Athlete Apparel Co,0.93,0.96,2026-04-02,Active,Apparel
+V012,TeamKit Wholesale,0.84,0.82,2026-08-20,Watch,Team Kits
+V013,TrackStar Accessories,0.96,0.97,2026-01-24,Active,Accessories
+V014,GoalNet India,0.89,0.92,2026-02-01,Active,Football
+V015,SchoolSports Supply,0.81,0.78,2026-09-01,Watch,Institutional

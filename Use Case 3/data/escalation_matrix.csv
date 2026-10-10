@@ -1,0 +1,16 @@
+category,trigger,priority,team,channel,sla_minutes,human_approval_required,policy_source
+POS and Payments,One register or one card reader failing,P3,POS Support,pos_support_queue,240,No,02_pos_pricing_returns_policy.md#pos-card-reader-runbook
+POS and Payments,Multiple registers or store-wide payment outage,P1,Store Manager + POS Support,pos_p1_queue,15,Yes,02_pos_pricing_returns_policy.md#pos-card-reader-runbook
+POS and Payments,Payment data or credential request,P1,Security + POS Support,security_p1_queue,15,Yes,02_pos_pricing_returns_policy.md#payment-security
+Pricing and Promotions,Single SKU shelf-vs-register mismatch,P3,Store Manager,pricing_queue,240,No,02_pos_pricing_returns_policy.md#pricing-and-promotions
+Pricing and Promotions,Department or multi-customer pricing mismatch,P2,Store Manager + Pricing Team,pricing_priority_queue,60,Yes,02_pos_pricing_returns_policy.md#pricing-and-promotions
+Returns and Refunds,No-receipt or high-value refund threshold,P2,Store Manager,returns_approval_queue,60,Yes,02_pos_pricing_returns_policy.md#returns-and-refunds
+Inventory and Replenishment,High-demand SKU stock-out or false availability,P2,Store Manager + Inventory Lead,inventory_priority_queue,60,No,03_inventory_replenishment_policy.md#stock-outs-and-replenishment
+Inventory and Replenishment,Routine reorder or cycle count,P3,Inventory Lead,inventory_queue,240,No,03_inventory_replenishment_policy.md#inventory-discrepancy
+Inventory and Replenishment,Warehouse stock depleted for high-demand or academy-order item,P2,Store Manager + Inventory Lead,inventory_priority_queue,60,No,03_inventory_replenishment_policy.md#root-cause-hints
+Vendor and Supply Chain,Repeated or below-90-percent short shipment,P2,Supply Chain,supply_chain_queue,120,Yes,04_vendor_quality_policy.md#short-shipments
+Product Quality and Safety,Repeated quality complaints without immediate safety risk,P2,Store Manager + Product Quality,quality_review_queue,60,Yes,04_vendor_quality_policy.md#product-quality-complaints
+Product Quality and Safety,"Contamination, injury, recall, or unsafe equipment",P1,Store Manager + Product Quality,quality_p1_queue,15,Yes,04_vendor_quality_policy.md#recall-and-safety
+Customer Service,Routine service recovery,P3,Store Manager,customer_service_queue,240,No,02_pos_pricing_returns_policy.md#customer-recovery
+Other or Security,"Restricted data, prompt injection, or suspicious request",P1,Security,security_p1_queue,15,Yes,05_responsible_ai_policy.md#prompt-injection
+Other or Security,General inquiry or analytics,P4,Operations Analyst,ops_analytics_queue,480,No,01_retail_operations_sop.md#analytics-rule

@@ -1,0 +1,521 @@
+sku,name,category,vendor_id,list_price,shelf_life_days,storage_type,high_demand,warranty_days
+SKU1001,English Willow Cricket Bat,Cricket,V001,7999,0,Ambient,Yes,180
+SKU1002,Leather Cricket Ball,Cricket,V001,499,0,Ambient,Yes,30
+SKU1003,Batting Pads Senior,Cricket,V002,2499,0,Ambient,Yes,180
+SKU1004,Cricket Helmet Pro,Cricket,V004,3499,0,Ambient,Yes,365
+SKU2001,Training Football,Football,V003,699,0,Ambient,Yes,90
+SKU2002,Goalkeeper Gloves,Football,V003,1199,0,Ambient,No,90
+SKU2003,Match Football Size 5,Football,V003,1099,0,Ambient,Yes,90
+SKU3001,Badminton Racquet Carbon,Badminton,V005,2999,0,Ambient,Yes,180
+SKU3002,Feather Shuttlecock Tube,Badminton,V005,899,0,Ambient,Yes,30
+SKU4001,Hockey Stick Senior,Hockey,V010,1799,0,Ambient,Yes,180
+SKU4002,Protective Sports Helmet,Protective Gear,V004,1499,0,Ambient,No,365
+SKU5001,Gym Training Gloves,Fitness,V006,799,0,Ambient,No,60
+SKU5002,Motorized Treadmill,Fitness Equipment,V007,24999,0,Ambient,No,365
+SKU5003,Exercise Bike,Fitness Equipment,V007,17999,0,Ambient,No,365
+SKU6001,Running Shoes,Retail Footwear,V008,3999,0,Ambient,No,90
+SKU7001,Tennis Ball Pack,Tennis,V009,299,0,Ambient,Yes,30
+SKU8001,Junior Kashmir Willow Bat 1,Cricket,V001,1200,0,Ambient,Yes,90
+SKU8002,Senior English Willow Bat 2,Cricket,V001,1373,0,Ambient,No,90
+SKU8003,Pro Leather Cricket Ball 3,Cricket,V001,1546,0,Ambient,No,90
+SKU8004,Club Practice Cricket Ball 4,Cricket,V001,1719,0,Ambient,No,90
+SKU8005,Academy Batting Gloves 5,Cricket,V001,1892,0,Ambient,Yes,90
+SKU8006,Elite Wicket Keeping Gloves 6,Cricket,V001,2065,0,Ambient,No,90
+SKU8007,Training Cricket Kit Bag 7,Cricket,V001,2238,0,Ambient,No,90
+SKU8008,Tournament Cricket Stumps 8,Cricket,V001,2411,0,Ambient,No,90
+SKU8009,Junior Bat Grip 9,Cricket,V001,2584,0,Ambient,Yes,90
+SKU8010,Senior Abdominal Guard 10,Cricket,V001,2757,0,Ambient,No,90
+SKU8011,Pro Kashmir Willow Bat 11,Cricket,V001,2930,0,Ambient,No,90
+SKU8012,Club English Willow Bat 12,Cricket,V001,3103,0,Ambient,No,90
+SKU8013,Academy Leather Cricket Ball 13,Cricket,V001,3276,0,Ambient,Yes,90
+SKU8014,Elite Practice Cricket Ball 14,Cricket,V001,3449,0,Ambient,No,90
+SKU8015,Training Batting Gloves 15,Cricket,V001,3622,0,Ambient,No,90
+SKU8016,Tournament Wicket Keeping Gloves 16,Cricket,V001,3795,0,Ambient,No,90
+SKU8017,Junior Cricket Kit Bag 17,Cricket,V001,3968,0,Ambient,Yes,90
+SKU8018,Senior Cricket Stumps 18,Cricket,V001,4141,0,Ambient,No,90
+SKU8019,Pro Bat Grip 19,Cricket,V001,4314,0,Ambient,No,90
+SKU8020,Club Abdominal Guard 20,Cricket,V001,4487,0,Ambient,No,90
+SKU8021,Academy Kashmir Willow Bat 21,Cricket,V001,4660,0,Ambient,Yes,90
+SKU8022,Elite English Willow Bat 22,Cricket,V001,4833,0,Ambient,No,90
+SKU8023,Training Leather Cricket Ball 23,Cricket,V001,5006,0,Ambient,No,90
+SKU8024,Tournament Practice Cricket Ball 24,Cricket,V001,5179,0,Ambient,No,90
+SKU8025,Junior Batting Gloves 25,Cricket,V001,5352,0,Ambient,Yes,90
+SKU8026,Senior Wicket Keeping Gloves 26,Cricket,V001,5525,0,Ambient,No,90
+SKU8027,Pro Cricket Kit Bag 27,Cricket,V001,5698,0,Ambient,No,90
+SKU8028,Club Cricket Stumps 28,Cricket,V001,5871,0,Ambient,No,90
+SKU8029,Academy Bat Grip 29,Cricket,V001,6044,0,Ambient,Yes,90
+SKU8030,Elite Abdominal Guard 30,Cricket,V001,6217,0,Ambient,No,90
+SKU8031,Training Kashmir Willow Bat 31,Cricket,V001,6390,0,Ambient,No,90
+SKU8032,Tournament English Willow Bat 32,Cricket,V001,6563,0,Ambient,No,90
+SKU8033,Junior Leather Cricket Ball 33,Cricket,V001,6736,0,Ambient,Yes,90
+SKU8034,Senior Practice Cricket Ball 34,Cricket,V001,6909,0,Ambient,No,90
+SKU8035,Pro Batting Gloves 35,Cricket,V001,7082,0,Ambient,No,90
+SKU8036,Club Wicket Keeping Gloves 36,Cricket,V001,7255,0,Ambient,No,90
+SKU8037,Academy Cricket Kit Bag 37,Cricket,V001,7428,0,Ambient,Yes,90
+SKU8038,Elite Cricket Stumps 38,Cricket,V001,7601,0,Ambient,No,90
+SKU8039,Training Bat Grip 39,Cricket,V001,7774,0,Ambient,No,90
+SKU8040,Tournament Abdominal Guard 40,Cricket,V001,7947,0,Ambient,No,90
+SKU8041,Junior Kashmir Willow Bat 41,Cricket,V001,8120,0,Ambient,Yes,90
+SKU8042,Senior English Willow Bat 42,Cricket,V001,8293,0,Ambient,No,90
+SKU8043,Pro Leather Cricket Ball 43,Cricket,V001,8466,0,Ambient,No,90
+SKU8044,Club Practice Cricket Ball 44,Cricket,V001,8639,0,Ambient,No,90
+SKU8045,Academy Batting Gloves 45,Cricket,V001,8812,0,Ambient,Yes,90
+SKU8046,Elite Wicket Keeping Gloves 46,Cricket,V001,8985,0,Ambient,No,90
+SKU8047,Training Cricket Kit Bag 47,Cricket,V001,9158,0,Ambient,No,90
+SKU8048,Tournament Cricket Stumps 48,Cricket,V001,9331,0,Ambient,No,90
+SKU8049,Junior Bat Grip 49,Cricket,V001,9504,0,Ambient,Yes,90
+SKU8050,Senior Abdominal Guard 50,Cricket,V001,9677,0,Ambient,No,90
+SKU8051,Pro Kashmir Willow Bat 51,Cricket,V001,9850,0,Ambient,No,90
+SKU8052,Club English Willow Bat 52,Cricket,V001,10023,0,Ambient,No,90
+SKU8053,Academy Leather Cricket Ball 53,Cricket,V001,10196,0,Ambient,Yes,90
+SKU8054,Elite Practice Cricket Ball 54,Cricket,V001,10369,0,Ambient,No,90
+SKU8055,Training Batting Gloves 55,Cricket,V001,10542,0,Ambient,No,90
+SKU8056,Tournament Wicket Keeping Gloves 56,Cricket,V001,1215,0,Ambient,No,90
+SKU8057,Junior Cricket Kit Bag 57,Cricket,V001,1388,0,Ambient,Yes,90
+SKU8058,Senior Cricket Stumps 58,Cricket,V001,1561,0,Ambient,No,90
+SKU8059,Pro Bat Grip 59,Cricket,V001,1734,0,Ambient,No,90
+SKU8060,Club Abdominal Guard 60,Cricket,V001,1907,0,Ambient,No,90
+SKU8061,Junior Match Football 1,Football,V003,450,0,Ambient,Yes,90
+SKU8062,Senior Training Football 2,Football,V003,623,0,Ambient,No,90
+SKU8063,Pro Goalkeeper Gloves 3,Football,V003,796,0,Ambient,No,90
+SKU8064,Club Shin Guards 4,Football,V003,969,0,Ambient,No,90
+SKU8065,Academy Football Pump 5,Football,V003,1142,0,Ambient,Yes,90
+SKU8066,Elite Goal Net 6,Football,V003,1315,0,Ambient,No,90
+SKU8067,Training Captain Armband 7,Football,V003,1488,0,Ambient,No,90
+SKU8068,Tournament Cone Marker 8,Football,V003,1661,0,Ambient,No,90
+SKU8069,Junior Football Socks 9,Football,V003,1834,0,Ambient,Yes,90
+SKU8070,Senior Agility Ladder 10,Football,V003,2007,0,Ambient,No,90
+SKU8071,Pro Match Football 11,Football,V003,2180,0,Ambient,No,90
+SKU8072,Club Training Football 12,Football,V003,2353,0,Ambient,No,90
+SKU8073,Academy Goalkeeper Gloves 13,Football,V003,2526,0,Ambient,Yes,90
+SKU8074,Elite Shin Guards 14,Football,V003,2699,0,Ambient,No,90
+SKU8075,Training Football Pump 15,Football,V003,2872,0,Ambient,No,90
+SKU8076,Tournament Goal Net 16,Football,V003,3045,0,Ambient,No,90
+SKU8077,Junior Captain Armband 17,Football,V003,3218,0,Ambient,Yes,90
+SKU8078,Senior Cone Marker 18,Football,V003,3391,0,Ambient,No,90
+SKU8079,Pro Football Socks 19,Football,V003,3564,0,Ambient,No,90
+SKU8080,Club Agility Ladder 20,Football,V003,3737,0,Ambient,No,90
+SKU8081,Academy Match Football 21,Football,V003,3910,0,Ambient,Yes,90
+SKU8082,Elite Training Football 22,Football,V003,4083,0,Ambient,No,90
+SKU8083,Training Goalkeeper Gloves 23,Football,V003,4256,0,Ambient,No,90
+SKU8084,Tournament Shin Guards 24,Football,V003,4429,0,Ambient,No,90
+SKU8085,Junior Football Pump 25,Football,V003,4602,0,Ambient,Yes,90
+SKU8086,Senior Goal Net 26,Football,V003,4775,0,Ambient,No,90
+SKU8087,Pro Captain Armband 27,Football,V003,4948,0,Ambient,No,90
+SKU8088,Club Cone Marker 28,Football,V003,5121,0,Ambient,No,90
+SKU8089,Academy Football Socks 29,Football,V003,5294,0,Ambient,Yes,90
+SKU8090,Elite Agility Ladder 30,Football,V003,5467,0,Ambient,No,90
+SKU8091,Training Match Football 31,Football,V003,5640,0,Ambient,No,90
+SKU8092,Tournament Training Football 32,Football,V003,5813,0,Ambient,No,90
+SKU8093,Junior Goalkeeper Gloves 33,Football,V003,5986,0,Ambient,Yes,90
+SKU8094,Senior Shin Guards 34,Football,V003,6159,0,Ambient,No,90
+SKU8095,Pro Football Pump 35,Football,V003,6332,0,Ambient,No,90
+SKU8096,Club Goal Net 36,Football,V003,6505,0,Ambient,No,90
+SKU8097,Academy Captain Armband 37,Football,V003,6678,0,Ambient,Yes,90
+SKU8098,Elite Cone Marker 38,Football,V003,6851,0,Ambient,No,90
+SKU8099,Training Football Socks 39,Football,V003,7024,0,Ambient,No,90
+SKU8100,Tournament Agility Ladder 40,Football,V003,7197,0,Ambient,No,90
+SKU8101,Junior Match Football 41,Football,V003,7370,0,Ambient,Yes,90
+SKU8102,Senior Training Football 42,Football,V003,7543,0,Ambient,No,90
+SKU8103,Pro Goalkeeper Gloves 43,Football,V003,7716,0,Ambient,No,90
+SKU8104,Club Shin Guards 44,Football,V003,7889,0,Ambient,No,90
+SKU8105,Academy Football Pump 45,Football,V003,8062,0,Ambient,Yes,90
+SKU8106,Elite Goal Net 46,Football,V003,8235,0,Ambient,No,90
+SKU8107,Training Captain Armband 47,Football,V003,8408,0,Ambient,No,90
+SKU8108,Tournament Cone Marker 48,Football,V003,8581,0,Ambient,No,90
+SKU8109,Junior Football Socks 49,Football,V003,8754,0,Ambient,Yes,90
+SKU8110,Senior Agility Ladder 50,Football,V003,8927,0,Ambient,No,90
+SKU8111,Pro Match Football 51,Football,V003,9100,0,Ambient,No,90
+SKU8112,Club Training Football 52,Football,V003,9273,0,Ambient,No,90
+SKU8113,Academy Goalkeeper Gloves 53,Football,V003,9446,0,Ambient,Yes,90
+SKU8114,Elite Shin Guards 54,Football,V003,9619,0,Ambient,No,90
+SKU8115,Training Football Pump 55,Football,V003,9792,0,Ambient,No,90
+SKU8116,Tournament Goal Net 56,Football,V003,465,0,Ambient,No,90
+SKU8117,Junior Captain Armband 57,Football,V003,638,0,Ambient,Yes,90
+SKU8118,Senior Cone Marker 58,Football,V003,811,0,Ambient,No,90
+SKU8119,Pro Football Socks 59,Football,V003,984,0,Ambient,No,90
+SKU8120,Club Agility Ladder 60,Football,V003,1157,0,Ambient,No,90
+SKU8121,Junior Carbon Badminton Racquet 1,Badminton,V005,700,0,Ambient,Yes,90
+SKU8122,Senior Feather Shuttlecock Tube 2,Badminton,V005,873,0,Ambient,No,90
+SKU8123,Pro Nylon Shuttlecock Tube 3,Badminton,V005,1046,0,Ambient,No,90
+SKU8124,Club Badminton Net 4,Badminton,V005,1219,0,Ambient,No,90
+SKU8125,Academy Grip Tape 5,Badminton,V005,1392,0,Ambient,Yes,90
+SKU8126,Elite Racquet Cover 6,Badminton,V005,1565,0,Ambient,No,90
+SKU8127,Training Badminton Shoes 7,Badminton,V005,1738,0,Ambient,No,90
+SKU8128,Tournament Carbon Badminton Racquet 8,Badminton,V005,1911,0,Ambient,No,90
+SKU8129,Junior Feather Shuttlecock Tube 9,Badminton,V005,2084,0,Ambient,Yes,90
+SKU8130,Senior Nylon Shuttlecock Tube 10,Badminton,V005,2257,0,Ambient,No,90
+SKU8131,Pro Badminton Net 11,Badminton,V005,2430,0,Ambient,No,90
+SKU8132,Club Grip Tape 12,Badminton,V005,2603,0,Ambient,No,90
+SKU8133,Academy Racquet Cover 13,Badminton,V005,2776,0,Ambient,Yes,90
+SKU8134,Elite Badminton Shoes 14,Badminton,V005,2949,0,Ambient,No,90
+SKU8135,Training Carbon Badminton Racquet 15,Badminton,V005,3122,0,Ambient,No,90
+SKU8136,Tournament Feather Shuttlecock Tube 16,Badminton,V005,3295,0,Ambient,No,90
+SKU8137,Junior Nylon Shuttlecock Tube 17,Badminton,V005,3468,0,Ambient,Yes,90
+SKU8138,Senior Badminton Net 18,Badminton,V005,3641,0,Ambient,No,90
+SKU8139,Pro Grip Tape 19,Badminton,V005,3814,0,Ambient,No,90
+SKU8140,Club Racquet Cover 20,Badminton,V005,3987,0,Ambient,No,90
+SKU8141,Academy Badminton Shoes 21,Badminton,V005,4160,0,Ambient,Yes,90
+SKU8142,Elite Carbon Badminton Racquet 22,Badminton,V005,4333,0,Ambient,No,90
+SKU8143,Training Feather Shuttlecock Tube 23,Badminton,V005,4506,0,Ambient,No,90
+SKU8144,Tournament Nylon Shuttlecock Tube 24,Badminton,V005,4679,0,Ambient,No,90
+SKU8145,Junior Badminton Net 25,Badminton,V005,4852,0,Ambient,Yes,90
+SKU8146,Senior Grip Tape 26,Badminton,V005,5025,0,Ambient,No,90
+SKU8147,Pro Racquet Cover 27,Badminton,V005,5198,0,Ambient,No,90
+SKU8148,Club Badminton Shoes 28,Badminton,V005,5371,0,Ambient,No,90
+SKU8149,Academy Carbon Badminton Racquet 29,Badminton,V005,5544,0,Ambient,Yes,90
+SKU8150,Elite Feather Shuttlecock Tube 30,Badminton,V005,5717,0,Ambient,No,90
+SKU8151,Training Nylon Shuttlecock Tube 31,Badminton,V005,5890,0,Ambient,No,90
+SKU8152,Tournament Badminton Net 32,Badminton,V005,6063,0,Ambient,No,90
+SKU8153,Junior Grip Tape 33,Badminton,V005,6236,0,Ambient,Yes,90
+SKU8154,Senior Racquet Cover 34,Badminton,V005,6409,0,Ambient,No,90
+SKU8155,Pro Badminton Shoes 35,Badminton,V005,6582,0,Ambient,No,90
+SKU8156,Club Carbon Badminton Racquet 36,Badminton,V005,6755,0,Ambient,No,90
+SKU8157,Academy Feather Shuttlecock Tube 37,Badminton,V005,6928,0,Ambient,Yes,90
+SKU8158,Elite Nylon Shuttlecock Tube 38,Badminton,V005,7101,0,Ambient,No,90
+SKU8159,Training Badminton Net 39,Badminton,V005,7274,0,Ambient,No,90
+SKU8160,Tournament Grip Tape 40,Badminton,V005,7447,0,Ambient,No,90
+SKU8161,Junior Racquet Cover 41,Badminton,V005,7620,0,Ambient,Yes,90
+SKU8162,Senior Badminton Shoes 42,Badminton,V005,7793,0,Ambient,No,90
+SKU8163,Pro Carbon Badminton Racquet 43,Badminton,V005,7966,0,Ambient,No,90
+SKU8164,Club Feather Shuttlecock Tube 44,Badminton,V005,8139,0,Ambient,No,90
+SKU8165,Academy Nylon Shuttlecock Tube 45,Badminton,V005,8312,0,Ambient,Yes,90
+SKU8166,Elite Badminton Net 46,Badminton,V005,8485,0,Ambient,No,90
+SKU8167,Training Grip Tape 47,Badminton,V005,8658,0,Ambient,No,90
+SKU8168,Tournament Racquet Cover 48,Badminton,V005,8831,0,Ambient,No,90
+SKU8169,Junior Badminton Shoes 49,Badminton,V005,9004,0,Ambient,Yes,90
+SKU8170,Senior Carbon Badminton Racquet 50,Badminton,V005,9177,0,Ambient,No,90
+SKU8171,Pro Feather Shuttlecock Tube 51,Badminton,V005,9350,0,Ambient,No,90
+SKU8172,Club Nylon Shuttlecock Tube 52,Badminton,V005,9523,0,Ambient,No,90
+SKU8173,Academy Badminton Net 53,Badminton,V005,9696,0,Ambient,Yes,90
+SKU8174,Elite Grip Tape 54,Badminton,V005,9869,0,Ambient,No,90
+SKU8175,Training Racquet Cover 55,Badminton,V005,10042,0,Ambient,No,90
+SKU8176,Tournament Badminton Shoes 56,Badminton,V005,715,0,Ambient,No,90
+SKU8177,Junior Carbon Badminton Racquet 57,Badminton,V005,888,0,Ambient,Yes,90
+SKU8178,Senior Feather Shuttlecock Tube 58,Badminton,V005,1061,0,Ambient,No,90
+SKU8179,Pro Nylon Shuttlecock Tube 59,Badminton,V005,1234,0,Ambient,No,90
+SKU8180,Club Badminton Net 60,Badminton,V005,1407,0,Ambient,No,90
+SKU8181,Junior Tennis Ball Pack 1,Tennis,V009,350,0,Ambient,Yes,90
+SKU8182,Senior Graphite Tennis Racquet 2,Tennis,V009,523,0,Ambient,No,90
+SKU8183,Pro Tennis Net 3,Tennis,V009,696,0,Ambient,No,90
+SKU8184,Club Wrist Band 4,Tennis,V009,869,0,Ambient,No,90
+SKU8185,Academy Tennis Grip 5,Tennis,V009,1042,0,Ambient,Yes,90
+SKU8186,Elite Practice Cone Set 6,Tennis,V009,1215,0,Ambient,No,90
+SKU8187,Training Tennis Ball Pack 7,Tennis,V009,1388,0,Ambient,No,90
+SKU8188,Tournament Graphite Tennis Racquet 8,Tennis,V009,1561,0,Ambient,No,90
+SKU8189,Junior Tennis Net 9,Tennis,V009,1734,0,Ambient,Yes,90
+SKU8190,Senior Wrist Band 10,Tennis,V009,1907,0,Ambient,No,90
+SKU8191,Pro Tennis Grip 11,Tennis,V009,2080,0,Ambient,No,90
+SKU8192,Club Practice Cone Set 12,Tennis,V009,2253,0,Ambient,No,90
+SKU8193,Academy Tennis Ball Pack 13,Tennis,V009,2426,0,Ambient,Yes,90
+SKU8194,Elite Graphite Tennis Racquet 14,Tennis,V009,2599,0,Ambient,No,90
+SKU8195,Training Tennis Net 15,Tennis,V009,2772,0,Ambient,No,90
+SKU8196,Tournament Wrist Band 16,Tennis,V009,2945,0,Ambient,No,90
+SKU8197,Junior Tennis Grip 17,Tennis,V009,3118,0,Ambient,Yes,90
+SKU8198,Senior Practice Cone Set 18,Tennis,V009,3291,0,Ambient,No,90
+SKU8199,Pro Tennis Ball Pack 19,Tennis,V009,3464,0,Ambient,No,90
+SKU8200,Club Graphite Tennis Racquet 20,Tennis,V009,3637,0,Ambient,No,90
+SKU8201,Academy Tennis Net 21,Tennis,V009,3810,0,Ambient,Yes,90
+SKU8202,Elite Wrist Band 22,Tennis,V009,3983,0,Ambient,No,90
+SKU8203,Training Tennis Grip 23,Tennis,V009,4156,0,Ambient,No,90
+SKU8204,Tournament Practice Cone Set 24,Tennis,V009,4329,0,Ambient,No,90
+SKU8205,Junior Tennis Ball Pack 25,Tennis,V009,4502,0,Ambient,Yes,90
+SKU8206,Senior Graphite Tennis Racquet 26,Tennis,V009,4675,0,Ambient,No,90
+SKU8207,Pro Tennis Net 27,Tennis,V009,4848,0,Ambient,No,90
+SKU8208,Club Wrist Band 28,Tennis,V009,5021,0,Ambient,No,90
+SKU8209,Academy Tennis Grip 29,Tennis,V009,5194,0,Ambient,Yes,90
+SKU8210,Elite Practice Cone Set 30,Tennis,V009,5367,0,Ambient,No,90
+SKU8211,Training Tennis Ball Pack 31,Tennis,V009,5540,0,Ambient,No,90
+SKU8212,Tournament Graphite Tennis Racquet 32,Tennis,V009,5713,0,Ambient,No,90
+SKU8213,Junior Tennis Net 33,Tennis,V009,5886,0,Ambient,Yes,90
+SKU8214,Senior Wrist Band 34,Tennis,V009,6059,0,Ambient,No,90
+SKU8215,Pro Tennis Grip 35,Tennis,V009,6232,0,Ambient,No,90
+SKU8216,Club Practice Cone Set 36,Tennis,V009,6405,0,Ambient,No,90
+SKU8217,Academy Tennis Ball Pack 37,Tennis,V009,6578,0,Ambient,Yes,90
+SKU8218,Elite Graphite Tennis Racquet 38,Tennis,V009,6751,0,Ambient,No,90
+SKU8219,Training Tennis Net 39,Tennis,V009,6924,0,Ambient,No,90
+SKU8220,Tournament Wrist Band 40,Tennis,V009,7097,0,Ambient,No,90
+SKU8221,Junior Tennis Grip 41,Tennis,V009,7270,0,Ambient,Yes,90
+SKU8222,Senior Practice Cone Set 42,Tennis,V009,7443,0,Ambient,No,90
+SKU8223,Pro Tennis Ball Pack 43,Tennis,V009,7616,0,Ambient,No,90
+SKU8224,Club Graphite Tennis Racquet 44,Tennis,V009,7789,0,Ambient,No,90
+SKU8225,Academy Tennis Net 45,Tennis,V009,7962,0,Ambient,Yes,90
+SKU8226,Elite Wrist Band 46,Tennis,V009,8135,0,Ambient,No,90
+SKU8227,Training Tennis Grip 47,Tennis,V009,8308,0,Ambient,No,90
+SKU8228,Tournament Practice Cone Set 48,Tennis,V009,8481,0,Ambient,No,90
+SKU8229,Junior Tennis Ball Pack 49,Tennis,V009,8654,0,Ambient,Yes,90
+SKU8230,Senior Graphite Tennis Racquet 50,Tennis,V009,8827,0,Ambient,No,90
+SKU8231,Pro Tennis Net 51,Tennis,V009,9000,0,Ambient,No,90
+SKU8232,Club Wrist Band 52,Tennis,V009,9173,0,Ambient,No,90
+SKU8233,Academy Tennis Grip 53,Tennis,V009,9346,0,Ambient,Yes,90
+SKU8234,Elite Practice Cone Set 54,Tennis,V009,9519,0,Ambient,No,90
+SKU8235,Training Tennis Ball Pack 55,Tennis,V009,9692,0,Ambient,No,90
+SKU8236,Tournament Graphite Tennis Racquet 56,Tennis,V009,365,0,Ambient,No,90
+SKU8237,Junior Tennis Net 57,Tennis,V009,538,0,Ambient,Yes,90
+SKU8238,Senior Wrist Band 58,Tennis,V009,711,0,Ambient,No,90
+SKU8239,Pro Tennis Grip 59,Tennis,V009,884,0,Ambient,No,90
+SKU8240,Club Practice Cone Set 60,Tennis,V009,1057,0,Ambient,No,90
+SKU8241,Junior Hockey Stick 1,Hockey,V010,900,0,Ambient,Yes,90
+SKU8242,Senior Hockey Ball 2,Hockey,V010,1073,0,Ambient,No,90
+SKU8243,Pro Goalkeeper Pad 3,Hockey,V010,1246,0,Ambient,No,90
+SKU8244,Club Hockey Gloves 4,Hockey,V010,1419,0,Ambient,No,90
+SKU8245,Academy Shin Guard 5,Hockey,V010,1592,0,Ambient,Yes,90
+SKU8246,Elite Hockey Kit Bag 6,Hockey,V010,1765,0,Ambient,No,90
+SKU8247,Training Hockey Stick 7,Hockey,V010,1938,0,Ambient,No,90
+SKU8248,Tournament Hockey Ball 8,Hockey,V010,2111,0,Ambient,No,90
+SKU8249,Junior Goalkeeper Pad 9,Hockey,V010,2284,0,Ambient,Yes,90
+SKU8250,Senior Hockey Gloves 10,Hockey,V010,2457,0,Ambient,No,90
+SKU8251,Pro Shin Guard 11,Hockey,V010,2630,0,Ambient,No,90
+SKU8252,Club Hockey Kit Bag 12,Hockey,V010,2803,0,Ambient,No,90
+SKU8253,Academy Hockey Stick 13,Hockey,V010,2976,0,Ambient,Yes,90
+SKU8254,Elite Hockey Ball 14,Hockey,V010,3149,0,Ambient,No,90
+SKU8255,Training Goalkeeper Pad 15,Hockey,V010,3322,0,Ambient,No,90
+SKU8256,Tournament Hockey Gloves 16,Hockey,V010,3495,0,Ambient,No,90
+SKU8257,Junior Shin Guard 17,Hockey,V010,3668,0,Ambient,Yes,90
+SKU8258,Senior Hockey Kit Bag 18,Hockey,V010,3841,0,Ambient,No,90
+SKU8259,Pro Hockey Stick 19,Hockey,V010,4014,0,Ambient,No,90
+SKU8260,Club Hockey Ball 20,Hockey,V010,4187,0,Ambient,No,90
+SKU8261,Academy Goalkeeper Pad 21,Hockey,V010,4360,0,Ambient,Yes,90
+SKU8262,Elite Hockey Gloves 22,Hockey,V010,4533,0,Ambient,No,90
+SKU8263,Training Shin Guard 23,Hockey,V010,4706,0,Ambient,No,90
+SKU8264,Tournament Hockey Kit Bag 24,Hockey,V010,4879,0,Ambient,No,90
+SKU8265,Junior Hockey Stick 25,Hockey,V010,5052,0,Ambient,Yes,90
+SKU8266,Senior Hockey Ball 26,Hockey,V010,5225,0,Ambient,No,90
+SKU8267,Pro Goalkeeper Pad 27,Hockey,V010,5398,0,Ambient,No,90
+SKU8268,Club Hockey Gloves 28,Hockey,V010,5571,0,Ambient,No,90
+SKU8269,Academy Shin Guard 29,Hockey,V010,5744,0,Ambient,Yes,90
+SKU8270,Elite Hockey Kit Bag 30,Hockey,V010,5917,0,Ambient,No,90
+SKU8271,Training Hockey Stick 31,Hockey,V010,6090,0,Ambient,No,90
+SKU8272,Tournament Hockey Ball 32,Hockey,V010,6263,0,Ambient,No,90
+SKU8273,Junior Goalkeeper Pad 33,Hockey,V010,6436,0,Ambient,Yes,90
+SKU8274,Senior Hockey Gloves 34,Hockey,V010,6609,0,Ambient,No,90
+SKU8275,Pro Shin Guard 35,Hockey,V010,6782,0,Ambient,No,90
+SKU8276,Club Hockey Kit Bag 36,Hockey,V010,6955,0,Ambient,No,90
+SKU8277,Academy Hockey Stick 37,Hockey,V010,7128,0,Ambient,Yes,90
+SKU8278,Elite Hockey Ball 38,Hockey,V010,7301,0,Ambient,No,90
+SKU8279,Training Goalkeeper Pad 39,Hockey,V010,7474,0,Ambient,No,90
+SKU8280,Tournament Hockey Gloves 40,Hockey,V010,7647,0,Ambient,No,90
+SKU8281,Junior Shin Guard 41,Hockey,V010,7820,0,Ambient,Yes,90
+SKU8282,Senior Hockey Kit Bag 42,Hockey,V010,7993,0,Ambient,No,90
+SKU8283,Pro Hockey Stick 43,Hockey,V010,8166,0,Ambient,No,90
+SKU8284,Club Hockey Ball 44,Hockey,V010,8339,0,Ambient,No,90
+SKU8285,Academy Goalkeeper Pad 45,Hockey,V010,8512,0,Ambient,Yes,90
+SKU8286,Elite Hockey Gloves 46,Hockey,V010,8685,0,Ambient,No,90
+SKU8287,Training Shin Guard 47,Hockey,V010,8858,0,Ambient,No,90
+SKU8288,Tournament Hockey Kit Bag 48,Hockey,V010,9031,0,Ambient,No,90
+SKU8289,Junior Hockey Stick 49,Hockey,V010,9204,0,Ambient,Yes,90
+SKU8290,Senior Hockey Ball 50,Hockey,V010,9377,0,Ambient,No,90
+SKU8291,Pro Goalkeeper Pad 51,Hockey,V010,9550,0,Ambient,No,90
+SKU8292,Club Hockey Gloves 52,Hockey,V010,9723,0,Ambient,No,90
+SKU8293,Academy Shin Guard 53,Hockey,V010,9896,0,Ambient,Yes,90
+SKU8294,Elite Hockey Kit Bag 54,Hockey,V010,10069,0,Ambient,No,90
+SKU8295,Training Hockey Stick 55,Hockey,V010,10242,0,Ambient,No,90
+SKU8296,Tournament Hockey Ball 56,Hockey,V010,915,0,Ambient,No,90
+SKU8297,Junior Goalkeeper Pad 57,Hockey,V010,1088,0,Ambient,Yes,90
+SKU8298,Senior Hockey Gloves 58,Hockey,V010,1261,0,Ambient,No,90
+SKU8299,Pro Shin Guard 59,Hockey,V010,1434,0,Ambient,No,90
+SKU8300,Club Hockey Kit Bag 60,Hockey,V010,1607,0,Ambient,No,90
+SKU8301,Junior Sports Helmet 1,Protective Gear,V004,500,0,Ambient,Yes,180
+SKU8302,Senior Mouth Guard 2,Protective Gear,V004,673,0,Ambient,No,180
+SKU8303,Pro Knee Guard 3,Protective Gear,V004,846,0,Ambient,No,180
+SKU8304,Club Elbow Guard 4,Protective Gear,V004,1019,0,Ambient,No,180
+SKU8305,Academy Ankle Support 5,Protective Gear,V004,1192,0,Ambient,Yes,180
+SKU8306,Elite Protective Cup 6,Protective Gear,V004,1365,0,Ambient,No,180
+SKU8307,Training Sports Helmet 7,Protective Gear,V004,1538,0,Ambient,No,180
+SKU8308,Tournament Mouth Guard 8,Protective Gear,V004,1711,0,Ambient,No,180
+SKU8309,Junior Knee Guard 9,Protective Gear,V004,1884,0,Ambient,Yes,180
+SKU8310,Senior Elbow Guard 10,Protective Gear,V004,2057,0,Ambient,No,180
+SKU8311,Pro Ankle Support 11,Protective Gear,V004,2230,0,Ambient,No,180
+SKU8312,Club Protective Cup 12,Protective Gear,V004,2403,0,Ambient,No,180
+SKU8313,Academy Sports Helmet 13,Protective Gear,V004,2576,0,Ambient,Yes,180
+SKU8314,Elite Mouth Guard 14,Protective Gear,V004,2749,0,Ambient,No,180
+SKU8315,Training Knee Guard 15,Protective Gear,V004,2922,0,Ambient,No,180
+SKU8316,Tournament Elbow Guard 16,Protective Gear,V004,3095,0,Ambient,No,180
+SKU8317,Junior Ankle Support 17,Protective Gear,V004,3268,0,Ambient,Yes,180
+SKU8318,Senior Protective Cup 18,Protective Gear,V004,3441,0,Ambient,No,180
+SKU8319,Pro Sports Helmet 19,Protective Gear,V004,3614,0,Ambient,No,180
+SKU8320,Club Mouth Guard 20,Protective Gear,V004,3787,0,Ambient,No,180
+SKU8321,Academy Knee Guard 21,Protective Gear,V004,3960,0,Ambient,Yes,180
+SKU8322,Elite Elbow Guard 22,Protective Gear,V004,4133,0,Ambient,No,180
+SKU8323,Training Ankle Support 23,Protective Gear,V004,4306,0,Ambient,No,180
+SKU8324,Tournament Protective Cup 24,Protective Gear,V004,4479,0,Ambient,No,180
+SKU8325,Junior Sports Helmet 25,Protective Gear,V004,4652,0,Ambient,Yes,180
+SKU8326,Senior Mouth Guard 26,Protective Gear,V004,4825,0,Ambient,No,180
+SKU8327,Pro Knee Guard 27,Protective Gear,V004,4998,0,Ambient,No,180
+SKU8328,Club Elbow Guard 28,Protective Gear,V004,5171,0,Ambient,No,180
+SKU8329,Academy Ankle Support 29,Protective Gear,V004,5344,0,Ambient,Yes,180
+SKU8330,Elite Protective Cup 30,Protective Gear,V004,5517,0,Ambient,No,180
+SKU8331,Training Sports Helmet 31,Protective Gear,V004,5690,0,Ambient,No,180
+SKU8332,Tournament Mouth Guard 32,Protective Gear,V004,5863,0,Ambient,No,180
+SKU8333,Junior Knee Guard 33,Protective Gear,V004,6036,0,Ambient,Yes,180
+SKU8334,Senior Elbow Guard 34,Protective Gear,V004,6209,0,Ambient,No,180
+SKU8335,Pro Ankle Support 35,Protective Gear,V004,6382,0,Ambient,No,180
+SKU8336,Club Protective Cup 36,Protective Gear,V004,6555,0,Ambient,No,180
+SKU8337,Academy Sports Helmet 37,Protective Gear,V004,6728,0,Ambient,Yes,180
+SKU8338,Elite Mouth Guard 38,Protective Gear,V004,6901,0,Ambient,No,180
+SKU8339,Training Knee Guard 39,Protective Gear,V004,7074,0,Ambient,No,180
+SKU8340,Tournament Elbow Guard 40,Protective Gear,V004,7247,0,Ambient,No,180
+SKU8341,Junior Ankle Support 41,Protective Gear,V004,7420,0,Ambient,Yes,180
+SKU8342,Senior Protective Cup 42,Protective Gear,V004,7593,0,Ambient,No,180
+SKU8343,Pro Sports Helmet 43,Protective Gear,V004,7766,0,Ambient,No,180
+SKU8344,Club Mouth Guard 44,Protective Gear,V004,7939,0,Ambient,No,180
+SKU8345,Academy Knee Guard 45,Protective Gear,V004,8112,0,Ambient,Yes,180
+SKU8346,Elite Elbow Guard 46,Protective Gear,V004,8285,0,Ambient,No,180
+SKU8347,Training Ankle Support 47,Protective Gear,V004,8458,0,Ambient,No,180
+SKU8348,Tournament Protective Cup 48,Protective Gear,V004,8631,0,Ambient,No,180
+SKU8349,Junior Sports Helmet 49,Protective Gear,V004,8804,0,Ambient,Yes,180
+SKU8350,Senior Mouth Guard 50,Protective Gear,V004,8977,0,Ambient,No,180
+SKU8351,Pro Knee Guard 51,Protective Gear,V004,9150,0,Ambient,No,180
+SKU8352,Club Elbow Guard 52,Protective Gear,V004,9323,0,Ambient,No,180
+SKU8353,Academy Ankle Support 53,Protective Gear,V004,9496,0,Ambient,Yes,180
+SKU8354,Elite Protective Cup 54,Protective Gear,V004,9669,0,Ambient,No,180
+SKU8355,Training Sports Helmet 55,Protective Gear,V004,9842,0,Ambient,No,180
+SKU8356,Tournament Mouth Guard 56,Protective Gear,V004,515,0,Ambient,No,180
+SKU8357,Junior Knee Guard 57,Protective Gear,V004,688,0,Ambient,Yes,180
+SKU8358,Senior Elbow Guard 58,Protective Gear,V004,861,0,Ambient,No,180
+SKU8359,Pro Ankle Support 59,Protective Gear,V004,1034,0,Ambient,No,180
+SKU8360,Club Protective Cup 60,Protective Gear,V004,1207,0,Ambient,No,180
+SKU8361,Junior Resistance Band 1,Fitness,V006,300,0,Ambient,Yes,90
+SKU8362,Senior Yoga Mat 2,Fitness,V006,473,0,Ambient,No,90
+SKU8363,Pro Skipping Rope 3,Fitness,V006,646,0,Ambient,No,90
+SKU8364,Club Dumbbell Pair 4,Fitness,V006,819,0,Ambient,No,90
+SKU8365,Academy Kettlebell 5,Fitness,V006,992,0,Ambient,Yes,90
+SKU8366,Elite Gym Gloves 6,Fitness,V006,1165,0,Ambient,No,90
+SKU8367,Training Foam Roller 7,Fitness,V006,1338,0,Ambient,No,90
+SKU8368,Tournament Resistance Band 8,Fitness,V006,1511,0,Ambient,No,90
+SKU8369,Junior Yoga Mat 9,Fitness,V006,1684,0,Ambient,Yes,90
+SKU8370,Senior Skipping Rope 10,Fitness,V006,1857,0,Ambient,No,90
+SKU8371,Pro Dumbbell Pair 11,Fitness,V006,2030,0,Ambient,No,90
+SKU8372,Club Kettlebell 12,Fitness,V006,2203,0,Ambient,No,90
+SKU8373,Academy Gym Gloves 13,Fitness,V006,2376,0,Ambient,Yes,90
+SKU8374,Elite Foam Roller 14,Fitness,V006,2549,0,Ambient,No,90
+SKU8375,Training Resistance Band 15,Fitness,V006,2722,0,Ambient,No,90
+SKU8376,Tournament Yoga Mat 16,Fitness,V006,2895,0,Ambient,No,90
+SKU8377,Junior Skipping Rope 17,Fitness,V006,3068,0,Ambient,Yes,90
+SKU8378,Senior Dumbbell Pair 18,Fitness,V006,3241,0,Ambient,No,90
+SKU8379,Pro Kettlebell 19,Fitness,V006,3414,0,Ambient,No,90
+SKU8380,Club Gym Gloves 20,Fitness,V006,3587,0,Ambient,No,90
+SKU8381,Academy Foam Roller 21,Fitness,V006,3760,0,Ambient,Yes,90
+SKU8382,Elite Resistance Band 22,Fitness,V006,3933,0,Ambient,No,90
+SKU8383,Training Yoga Mat 23,Fitness,V006,4106,0,Ambient,No,90
+SKU8384,Tournament Skipping Rope 24,Fitness,V006,4279,0,Ambient,No,90
+SKU8385,Junior Dumbbell Pair 25,Fitness,V006,4452,0,Ambient,Yes,90
+SKU8386,Senior Kettlebell 26,Fitness,V006,4625,0,Ambient,No,90
+SKU8387,Pro Gym Gloves 27,Fitness,V006,4798,0,Ambient,No,90
+SKU8388,Club Foam Roller 28,Fitness,V006,4971,0,Ambient,No,90
+SKU8389,Academy Resistance Band 29,Fitness,V006,5144,0,Ambient,Yes,90
+SKU8390,Elite Yoga Mat 30,Fitness,V006,5317,0,Ambient,No,90
+SKU8391,Training Skipping Rope 31,Fitness,V006,5490,0,Ambient,No,90
+SKU8392,Tournament Dumbbell Pair 32,Fitness,V006,5663,0,Ambient,No,90
+SKU8393,Junior Kettlebell 33,Fitness,V006,5836,0,Ambient,Yes,90
+SKU8394,Senior Gym Gloves 34,Fitness,V006,6009,0,Ambient,No,90
+SKU8395,Pro Foam Roller 35,Fitness,V006,6182,0,Ambient,No,90
+SKU8396,Club Resistance Band 36,Fitness,V006,6355,0,Ambient,No,90
+SKU8397,Academy Yoga Mat 37,Fitness,V006,6528,0,Ambient,Yes,90
+SKU8398,Elite Skipping Rope 38,Fitness,V006,6701,0,Ambient,No,90
+SKU8399,Training Dumbbell Pair 39,Fitness,V006,6874,0,Ambient,No,90
+SKU8400,Tournament Kettlebell 40,Fitness,V006,7047,0,Ambient,No,90
+SKU8401,Junior Gym Gloves 41,Fitness,V006,7220,0,Ambient,Yes,90
+SKU8402,Senior Foam Roller 42,Fitness,V006,7393,0,Ambient,No,90
+SKU8403,Pro Resistance Band 43,Fitness,V006,7566,0,Ambient,No,90
+SKU8404,Club Yoga Mat 44,Fitness,V006,7739,0,Ambient,No,90
+SKU8405,Academy Skipping Rope 45,Fitness,V006,7912,0,Ambient,Yes,90
+SKU8406,Elite Dumbbell Pair 46,Fitness,V006,8085,0,Ambient,No,90
+SKU8407,Training Kettlebell 47,Fitness,V006,8258,0,Ambient,No,90
+SKU8408,Tournament Gym Gloves 48,Fitness,V006,8431,0,Ambient,No,90
+SKU8409,Junior Foam Roller 49,Fitness,V006,8604,0,Ambient,Yes,90
+SKU8410,Senior Resistance Band 50,Fitness,V006,8777,0,Ambient,No,90
+SKU8411,Pro Yoga Mat 51,Fitness,V006,8950,0,Ambient,No,90
+SKU8412,Club Skipping Rope 52,Fitness,V006,9123,0,Ambient,No,90
+SKU8413,Academy Dumbbell Pair 53,Fitness,V006,9296,0,Ambient,Yes,90
+SKU8414,Elite Kettlebell 54,Fitness,V006,9469,0,Ambient,No,90
+SKU8415,Training Gym Gloves 55,Fitness,V006,9642,0,Ambient,No,90
+SKU8416,Tournament Foam Roller 56,Fitness,V006,315,0,Ambient,No,90
+SKU8417,Junior Resistance Band 57,Fitness,V006,488,0,Ambient,Yes,90
+SKU8418,Senior Yoga Mat 58,Fitness,V006,661,0,Ambient,No,90
+SKU8419,Pro Skipping Rope 59,Fitness,V006,834,0,Ambient,No,90
+SKU8420,Club Dumbbell Pair 60,Fitness,V006,1007,0,Ambient,No,90
+SKU8421,Junior Motorized Treadmill 1,Fitness Equipment,V007,12000,0,Ambient,Yes,365
+SKU8422,Senior Exercise Bike 2,Fitness Equipment,V007,12173,0,Ambient,No,365
+SKU8423,Pro Cross Trainer 3,Fitness Equipment,V007,12346,0,Ambient,No,365
+SKU8424,Club Rowing Machine 4,Fitness Equipment,V007,12519,0,Ambient,No,365
+SKU8425,Academy Weight Bench 5,Fitness Equipment,V007,12692,0,Ambient,Yes,365
+SKU8426,Elite Motorized Treadmill 6,Fitness Equipment,V007,12865,0,Ambient,No,365
+SKU8427,Training Exercise Bike 7,Fitness Equipment,V007,13038,0,Ambient,No,365
+SKU8428,Tournament Cross Trainer 8,Fitness Equipment,V007,13211,0,Ambient,No,365
+SKU8429,Junior Rowing Machine 9,Fitness Equipment,V007,13384,0,Ambient,Yes,365
+SKU8430,Senior Weight Bench 10,Fitness Equipment,V007,13557,0,Ambient,No,365
+SKU8431,Pro Motorized Treadmill 11,Fitness Equipment,V007,13730,0,Ambient,No,365
+SKU8432,Club Exercise Bike 12,Fitness Equipment,V007,13903,0,Ambient,No,365
+SKU8433,Academy Cross Trainer 13,Fitness Equipment,V007,14076,0,Ambient,Yes,365
+SKU8434,Elite Rowing Machine 14,Fitness Equipment,V007,14249,0,Ambient,No,365
+SKU8435,Training Weight Bench 15,Fitness Equipment,V007,14422,0,Ambient,No,365
+SKU8436,Tournament Motorized Treadmill 16,Fitness Equipment,V007,14595,0,Ambient,No,365
+SKU8437,Junior Exercise Bike 17,Fitness Equipment,V007,14768,0,Ambient,Yes,365
+SKU8438,Senior Cross Trainer 18,Fitness Equipment,V007,14941,0,Ambient,No,365
+SKU8439,Pro Rowing Machine 19,Fitness Equipment,V007,15114,0,Ambient,No,365
+SKU8440,Club Weight Bench 20,Fitness Equipment,V007,15287,0,Ambient,No,365
+SKU8441,Academy Motorized Treadmill 21,Fitness Equipment,V007,15460,0,Ambient,Yes,365
+SKU8442,Elite Exercise Bike 22,Fitness Equipment,V007,15633,0,Ambient,No,365
+SKU8443,Training Cross Trainer 23,Fitness Equipment,V007,15806,0,Ambient,No,365
+SKU8444,Tournament Rowing Machine 24,Fitness Equipment,V007,15979,0,Ambient,No,365
+SKU8445,Junior Weight Bench 25,Fitness Equipment,V007,16152,0,Ambient,Yes,365
+SKU8446,Senior Motorized Treadmill 26,Fitness Equipment,V007,16325,0,Ambient,No,365
+SKU8447,Pro Exercise Bike 27,Fitness Equipment,V007,16498,0,Ambient,No,365
+SKU8448,Club Cross Trainer 28,Fitness Equipment,V007,16671,0,Ambient,No,365
+SKU8449,Academy Rowing Machine 29,Fitness Equipment,V007,16844,0,Ambient,Yes,365
+SKU8450,Elite Weight Bench 30,Fitness Equipment,V007,17017,0,Ambient,No,365
+SKU8451,Training Motorized Treadmill 31,Fitness Equipment,V007,17190,0,Ambient,No,365
+SKU8452,Tournament Exercise Bike 32,Fitness Equipment,V007,17363,0,Ambient,No,365
+SKU8453,Junior Cross Trainer 33,Fitness Equipment,V007,17536,0,Ambient,Yes,365
+SKU8454,Senior Rowing Machine 34,Fitness Equipment,V007,17709,0,Ambient,No,365
+SKU8455,Pro Weight Bench 35,Fitness Equipment,V007,17882,0,Ambient,No,365
+SKU8456,Club Motorized Treadmill 36,Fitness Equipment,V007,18055,0,Ambient,No,365
+SKU8457,Academy Exercise Bike 37,Fitness Equipment,V007,18228,0,Ambient,Yes,365
+SKU8458,Elite Cross Trainer 38,Fitness Equipment,V007,18401,0,Ambient,No,365
+SKU8459,Training Rowing Machine 39,Fitness Equipment,V007,18574,0,Ambient,No,365
+SKU8460,Tournament Weight Bench 40,Fitness Equipment,V007,18747,0,Ambient,No,365
+SKU8461,Junior Motorized Treadmill 41,Fitness Equipment,V007,18920,0,Ambient,Yes,365
+SKU8462,Senior Exercise Bike 42,Fitness Equipment,V007,19093,0,Ambient,No,365
+SKU8463,Pro Cross Trainer 43,Fitness Equipment,V007,19266,0,Ambient,No,365
+SKU8464,Club Rowing Machine 44,Fitness Equipment,V007,19439,0,Ambient,No,365
+SKU8465,Academy Weight Bench 45,Fitness Equipment,V007,19612,0,Ambient,Yes,365
+SKU8466,Elite Motorized Treadmill 46,Fitness Equipment,V007,19785,0,Ambient,No,365
+SKU8467,Training Exercise Bike 47,Fitness Equipment,V007,19958,0,Ambient,No,365
+SKU8468,Tournament Cross Trainer 48,Fitness Equipment,V007,20131,0,Ambient,No,365
+SKU8469,Junior Rowing Machine 49,Fitness Equipment,V007,20304,0,Ambient,Yes,365
+SKU8470,Senior Weight Bench 50,Fitness Equipment,V007,20477,0,Ambient,No,365
+SKU8471,Pro Motorized Treadmill 51,Fitness Equipment,V007,20650,0,Ambient,No,365
+SKU8472,Club Exercise Bike 52,Fitness Equipment,V007,20823,0,Ambient,No,365
+SKU8473,Academy Cross Trainer 53,Fitness Equipment,V007,20996,0,Ambient,Yes,365
+SKU8474,Elite Rowing Machine 54,Fitness Equipment,V007,21169,0,Ambient,No,365
+SKU8475,Training Weight Bench 55,Fitness Equipment,V007,21342,0,Ambient,No,365
+SKU8476,Tournament Motorized Treadmill 56,Fitness Equipment,V007,12015,0,Ambient,No,365
+SKU8477,Junior Exercise Bike 57,Fitness Equipment,V007,12188,0,Ambient,Yes,365
+SKU8478,Senior Cross Trainer 58,Fitness Equipment,V007,12361,0,Ambient,No,365
+SKU8479,Pro Rowing Machine 59,Fitness Equipment,V007,12534,0,Ambient,No,365
+SKU8480,Club Weight Bench 60,Fitness Equipment,V007,12707,0,Ambient,No,365
+SKU8481,Junior Running Shoes 1,Retail Footwear,V008,1800,0,Ambient,Yes,90
+SKU8482,Senior Football Studs 2,Retail Footwear,V008,1973,0,Ambient,No,90
+SKU8483,Pro Badminton Shoes 3,Retail Footwear,V008,2146,0,Ambient,No,90
+SKU8484,Club Training Shoes 4,Retail Footwear,V008,2319,0,Ambient,No,90
+SKU8485,Academy Walking Shoes 5,Retail Footwear,V008,2492,0,Ambient,Yes,90
+SKU8486,Elite Running Shoes 6,Retail Footwear,V008,2665,0,Ambient,No,90
+SKU8487,Training Football Studs 7,Retail Footwear,V008,2838,0,Ambient,No,90
+SKU8488,Tournament Badminton Shoes 8,Retail Footwear,V008,3011,0,Ambient,No,90
+SKU8489,Junior Training Shoes 9,Retail Footwear,V008,3184,0,Ambient,Yes,90
+SKU8490,Senior Walking Shoes 10,Retail Footwear,V008,3357,0,Ambient,No,90
+SKU8491,Pro Running Shoes 11,Retail Footwear,V008,3530,0,Ambient,No,90
+SKU8492,Club Football Studs 12,Retail Footwear,V008,3703,0,Ambient,No,90
+SKU8493,Academy Badminton Shoes 13,Retail Footwear,V008,3876,0,Ambient,Yes,90
+SKU8494,Elite Training Shoes 14,Retail Footwear,V008,4049,0,Ambient,No,90
+SKU8495,Training Walking Shoes 15,Retail Footwear,V008,4222,0,Ambient,No,90
+SKU8496,Tournament Running Shoes 16,Retail Footwear,V008,4395,0,Ambient,No,90
+SKU8497,Junior Football Studs 17,Retail Footwear,V008,4568,0,Ambient,Yes,90
+SKU8498,Senior Badminton Shoes 18,Retail Footwear,V008,4741,0,Ambient,No,90
+SKU8499,Pro Training Shoes 19,Retail Footwear,V008,4914,0,Ambient,No,90
+SKU8500,Club Walking Shoes 20,Retail Footwear,V008,5087,0,Ambient,No,90
+SKU8501,Academy Running Shoes 21,Retail Footwear,V008,5260,0,Ambient,Yes,90
+SKU8502,Elite Football Studs 22,Retail Footwear,V008,5433,0,Ambient,No,90
+SKU8503,Training Badminton Shoes 23,Retail Footwear,V008,5606,0,Ambient,No,90
+SKU8504,Tournament Training Shoes 24,Retail Footwear,V008,5779,0,Ambient,No,90

@@ -1,0 +1,13 @@
+column_name,required,description,example
+test_id,Yes,Test case identifier,PUB-001
+category,Yes,Predicted category,POS and Payments
+priority,Yes,Predicted priority,P3
+confidence,Yes,Numeric confidence from 0 to 1,0.86
+answer,Yes,Final answer shown to user,"This looks like a single-register card-reader issue..."
+citations,Yes,Semicolon-separated source references,"02_pos_pricing_returns_policy.md#pos-card-reader-runbook"
+data_used,No,Semicolon-separated CSV files used,"support_cases.csv;inventory.csv"
+escalated,Yes,Yes or No,No
+escalation_team,No,Team or queue selected,POS Support
+pii_masked,Yes,Yes or No,Yes
+safety_refusal,Yes,Yes or No,No
+notes,No,Short explanation of reasoning,"Only one register affected; other registers work"
