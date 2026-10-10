@@ -1,3 +1,4 @@
+from copilot.agents.composer import follow_up_question
 from copilot.agents.escalation import decide, escalation_node, persist
 from copilot.agents.retrieval import retrieval_node
 from copilot.agents.safety import mask_text, safety_node, screen
@@ -266,6 +267,35 @@ def test_vague_note_escalates_when_model_is_confident_other(monkeypatch):
     assert decision.confidence < 0.65
     assert escalation.required
     assert escalation.team == "Operations Analyst"
+
+
+def test_trusted_knn_agreement_does_not_keep_an_out_of_scope_note(monkeypatch):
+    accepted = KnnHit(
+        trigger="General inquiry or analytics",
+        category="Other or Security",
+        priority="P4",
+        confidence=0.91,
+        top1=0.88,
+        neighbours=[],
+    )
+    _cascade_with_model(
+        monkeypatch,
+        accepted,
+        _proposal("General inquiry or analytics", "Other or Security", intent="analytics", confidence=0.9),
+    )
+    decision = classify("Can you book a cab for the store manager after the shift?", {})
+    escalation = decide(decision.model_dump(), {})
+    assert decision.category == "Other or Security"
+    assert decision.priority == "P4"
+    assert decision.confidence < 0.65
+    assert decision.disagreement
+    assert escalation.required
+    assert escalation.team == "Operations Analyst"
+    assert follow_up_question(
+        "Can you book a cab for the store manager after the shift?",
+        {},
+        decision.model_dump(),
+    )
 
 
 def test_untrusted_knn_agreement_does_not_lift_a_catch_all_reply(monkeypatch):

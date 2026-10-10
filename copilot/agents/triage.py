@@ -357,9 +357,8 @@ def _ensemble(hit, rules: Triage, proposal: LLMTriage, text: str) -> Triage:
         confidence = max(float(proposal.confidence), knn_conf)
     else:
         confidence = float(proposal.confidence) * 0.9
-    knn_trusted = agreed and _category_accepts(hit)
-    if row_category == "Other or Security" and not knn_trusted and not _grounded_analytics(proposal, text):
-        # Neither kNN nor the text backs this catch-all row, so a person should confirm it.
+    if row_category == "Other or Security" and not _grounded_analytics(proposal, text):
+        # A neighbour in this catch-all category is not evidence the note is in scope.
         confidence = min(confidence, 0.5)
     intent = _intent_for(row_category, proposal.intent, entities, text)
     if not intent and rules.category == row_category:
