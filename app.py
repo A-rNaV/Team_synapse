@@ -3,19 +3,43 @@
 from __future__ import annotations
 
 import json
+import os
 
 import pandas as pd
 import plotly.express as px
 import streamlit as st
 
-from copilot.config import EVAL_DIR, NOW, PREDICTIONS_PATH
+from copilot.config import EVAL_DIR, LLM_BACKEND, NOW, PREDICTIONS_PATH
 from copilot.data import load_frames
 from copilot.graph import run_turn
 from copilot.warmup import warmup
 
+_BACKEND_LABELS = {
+    "deepseek": "DeepSeek",
+    "openai": "OpenAI",
+    "gemini": "Gemini",
+    "groq": "Groq",
+    "ollama": "Ollama",
+}
+
+
+def _mode_label() -> str:
+    """Caption for the backend this process will actually call."""
+    backend = os.getenv("LLM_BACKEND", LLM_BACKEND).strip() or "RULES_ONLY"
+    if backend.upper() == "RULES_ONLY":
+        return "rules only"
+    path = os.getenv("TRIAGE_PATH", "cascade").strip().lower() or "cascade"
+    name = _BACKEND_LABELS.get(backend.lower(), backend)
+    return f"{name}, {path}"
+
+
 st.set_page_config(page_title="Retail Operations Copilot", layout="wide")
 st.title("Punjab Sports Mart")
-st.caption(f"Retail Operations Copilot. Business clock: {NOW:%Y-%m-%d %H:%M:%S} IST. Mode: rules only.")
+st.caption(
+    "Retail Operations Copilot. "
+    f"Business clock: {NOW:%Y-%m-%d %H:%M:%S} IST. "
+    f"Mode: {_mode_label()}."
+)
 
 
 @st.cache_resource

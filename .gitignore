@@ -8,3 +8,7 @@ outbox/
 .cache/
 .chroma/
 *.pyc
+
+# Local dummy cases. Not part of the scored suites.
+Use Case 3/evaluation/dummy_cases.csv
+Use Case 3/evaluation/results/dummy_run.csv

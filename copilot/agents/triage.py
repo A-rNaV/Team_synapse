@@ -22,10 +22,26 @@ from copilot.schemas import LLMTriage, Triage
 
 INJURY_TRIGGER = "Contamination, injury, recall, or unsafe equipment"
 STANDARD_RETURN = "Standard return guidance"
+STOREWIDE_OUTAGE = "Multiple registers or store-wide payment outage"
+ONE_REGISTER = "One register or one card reader failing"
 
 STORE_RE = re.compile(r"\b((?:ST|WH)\d{3})\b", re.IGNORECASE)
 INR_RE = re.compile(r"\bINR\s*([0-9][0-9,]*)", re.IGNORECASE)
 _QUALITY_CUE: re.Pattern | None = None
+# The store-wide P1 row needs the note to say the outage covers the store, not one payment error.
+_STOREWIDE_SCOPE_RE = re.compile(
+    r"\b(?:all|every|each)\s+(?:the\s+|of\s+the\s+)?(?:registers?|regs?|counters?|tills?|pos|terminals?|checkouts?|card\s+readers?)\b"
+    r"|\b(?:entire|whole)\s+(?:the\s+)?(?:store|shop|pos)\b"
+    r"|\bstore[- ]?wide\b",
+    re.IGNORECASE,
+)
+# Words that tie an analytics request to the case, stock, or vendor data the tools can read.
+_ANALYTICS_CUE_RE = re.compile(
+    r"\b(?:how\s+many|count|number\s+of|list(?:ed)?|grouped|summar(?:y|ise|ize)|report|trends?|rank(?:ing)?"
+    r"|lowest|highest|worst|open|unresolved|pending|urgent|escalated|tickets?|cases?|incidents?|complaints?"
+    r"|p[1-4]|fill\s+rate|short\s+shipments?|stock|vendors?|suppliers?|last\s+\d+\s+(?:hours?|hrs|days))\b",
+    re.IGNORECASE,
+)
 
 # Checked in this order. The first hit wins.
 _CHECKS = []
@@ -80,6 +96,9 @@ def _classify_cascade(text: str, safety: dict) -> Triage:
             proposal = propose(text, neighbours=neighbours, allowed_rows=allowed)
             if proposal.matrix_row_id.value not in set(allowed):
                 raise ValueError("matrix row is outside the kNN category")
+            if proposal.category != hit.category:
+                # The model rejects the kNN category, so that category is not confirmed.
+                proposal = propose(text, neighbours=neighbours)
         else:
             proposal = propose(text, neighbours=neighbours)
     except (LLMUnavailable, ValidationError, ValueError, urllib.error.URLError, TimeoutError, OSError):
@@ -223,12 +242,6 @@ def _knn_thresholds() -> tuple[float, float]:
         return 0.75, 0.85
 
 
-def _knn_accepts(hit, rules: Triage, conf_threshold: float, sim_threshold: float) -> bool:
-    """Kept for the always-path callers. The cascade uses category acceptance instead."""
-    agrees = hit.category == rules.category and hit.priority == rules.priority
-    return hit.confidence >= conf_threshold and (agrees or hit.top1 >= sim_threshold)
-
-
 def _category_accepts(hit) -> bool:
     if hit is None:
         return False
@@ -331,35 +344,10 @@ def _unavailable(hit, rules: Triage) -> Triage:
     )
 
 
-def _from_knn(hit, rules: Triage, text: str, source: str) -> Triage:
-    entities = _merge_rule_entities(rules)
-    intent = rules.intent if hit.category == rules.category and rules.intent else _intent_for(hit.category, "triage", entities)
-    if hit.category == "Inventory and Replenishment" and not intent:
-        intent = "stock_root_cause"
-    decision = _from_trigger(
-        hit.trigger,
-        f"Nearest labelled cases point to {hit.trigger}.",
-        entities,
-        intent=intent,
-        confidence=float(hit.confidence) if source == "knn" else min(float(hit.confidence), 0.6),
-    )
-    return decision.model_copy(
-        update={
-            "decision_source": source,
-            "decision_mode": source,
-            "knn_confidence": hit.confidence,
-            "neighbours": _neighbour_payload(hit),
-            "llm_called": False,
-            "rules_trigger": rules.trigger,
-            "rules_category": rules.category,
-            "rules_priority": rules.priority,
-            "disagreement": source != "knn",
-        }
-    )
-
-
 def _ensemble(hit, rules: Triage, proposal: LLMTriage, text: str) -> Triage:
     row_id = proposal.matrix_row_id.value
+    if row_id == STOREWIDE_OUTAGE and not _has_storewide_scope(text):
+        row_id = ONE_REGISTER
     row_category = _row_category(row_id)
     entities = _merge_entities(rules, proposal)
     neighbours = _neighbour_payload(hit)
@@ -369,12 +357,10 @@ def _ensemble(hit, rules: Triage, proposal: LLMTriage, text: str) -> Triage:
         confidence = max(float(proposal.confidence), knn_conf)
     else:
         confidence = float(proposal.confidence) * 0.9
-        if (
-            row_category == "Other or Security"
-            and proposal.intent != "analytics"
-            and (hit is None or hit.top1 < 0.70)
-        ):
-            confidence = min(confidence, 0.5)
+    knn_trusted = agreed and _category_accepts(hit)
+    if row_category == "Other or Security" and not knn_trusted and not _grounded_analytics(proposal, text):
+        # Neither kNN nor the text backs this catch-all row, so a person should confirm it.
+        confidence = min(confidence, 0.5)
     intent = _intent_for(row_category, proposal.intent, entities, text)
     if not intent and rules.category == row_category:
         intent = rules.intent
@@ -413,6 +399,15 @@ def _ensemble(hit, rules: Triage, proposal: LLMTriage, text: str) -> Triage:
             "no_receipt": entities["no_receipt"],
         }
     )
+
+
+def _has_storewide_scope(text: str) -> bool:
+    return _STOREWIDE_SCOPE_RE.search(apply_lexicon(text)) is not None
+
+
+def _grounded_analytics(proposal: LLMTriage, text: str) -> bool:
+    """An analytics intent counts only when the text asks about operational data."""
+    return proposal.intent == "analytics" and _ANALYTICS_CUE_RE.search(apply_lexicon(text)) is not None
 
 
 def _guard_hard_rules(decision: Triage, text: str, safety: dict) -> Triage:
