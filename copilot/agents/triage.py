@@ -67,8 +67,7 @@ def _classify_cascade(text: str, safety: dict) -> Triage:
                 "knn_confidence": None if hit is None else hit.confidence,
             }
         )
-    conf_threshold, sim_threshold = _knn_thresholds()
-    if hit is not None and _knn_accepts(hit, rules, conf_threshold, sim_threshold):
+    if hit is not None and _knn_accepts(hit, rules, *_knn_thresholds()):
         return _from_knn(hit, rules, text, source="knn")
     if _skip_model(rules, safety):
         return _tag(rules, "rules_fallback", neighbours=_neighbour_payload(hit))
