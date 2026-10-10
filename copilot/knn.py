@@ -1,4 +1,9 @@
-"""kNN over labelled support cases. Eval near-duplicates are left out of the index."""
+"""Embedding kNN over labelled support cases.
+
+Vectors come from BAAI/bge-small-en-v1.5 and are cached in .cache/case_emb.npy.
+The cache rebuilds only when the CSV or the eval prompts change. Rows with
+cosine above 0.95 to any eval prompt are left out of the index.
+"""
 
 from __future__ import annotations
 
@@ -21,7 +26,6 @@ HASH_PATH = CACHE_DIR / "case_index_hash.txt"
 THRESHOLD_PATH = CACHE_DIR / "knn_thresholds.json"
 
 TOP_K = 7
-# Starting points. tune() may replace them from the held-out split.
 CONF_THRESHOLD = 0.75
 SIM_THRESHOLD = 0.85
 
@@ -61,7 +65,6 @@ def lookup(text: str) -> KnnHit | None:
 
 
 def load_index() -> KnnIndex:
-    global _INDEX, CONF_THRESHOLD, SIM_THRESHOLD
     with _INDEX_LOCK:
         return _load_index_locked()
 
@@ -174,17 +177,12 @@ def _tune(matrix: np.ndarray, rows: list[dict]) -> tuple[float, float]:
             for index in holdout:
                 hit = _vote(matrix[index], train_matrix, train_rows)
                 rules = _rules_for(rows[index]["text"])
-                agrees = bool(
-                    hit
-                    and hit.category == rules[0]
-                    and hit.priority == rules[1]
-                )
+                agrees = bool(hit and hit.category == rules[0] and hit.priority == rules[1])
                 accepted = bool(hit) and hit.confidence >= conf and (agrees or hit.top1 >= sim)
                 predicted = (hit.category, hit.priority) if accepted else rules
                 if predicted == (rows[index]["category"], rows[index]["priority"]):
                     correct += 1
             accuracy = correct / len(holdout)
-            # Prefer the more conservative pair when accuracy ties, then the spec defaults.
             rank = (accuracy, conf, sim)
             current = (best[2], best[0], best[1])
             if rank > current:
@@ -244,6 +242,7 @@ def _source_hash() -> str:
     for prompt in _eval_prompts():
         digest.update(b"\0")
         digest.update(prompt.encode("utf-8"))
+    digest.update(b"\0bge-small-en-v1.5")
     return digest.hexdigest()
 
 

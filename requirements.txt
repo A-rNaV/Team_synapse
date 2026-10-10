@@ -7,5 +7,4 @@ plotly>=5.20
 python-dotenv>=1.0
 pytest>=8.0
 numpy>=1.26
-sentence-transformers>=3.0
-chromadb>=0.5
+fastembed>=0.4

@@ -1,6 +1,8 @@
-"""One hybrid path: BM25 top-10, vector top-10, then a local cross-encoder rerank.
+"""BM25 top-10 plus vector top-10, then the BGE cross-encoder.
 
 The matrix-row section is always kept. Chunk ids stay file.md#section.
+Policy vectors are cached in .cache/kb_emb.npy. A query whose best rerank
+score is below the cutoff is weak and escalates.
 """
 
 from __future__ import annotations
@@ -9,15 +11,17 @@ import hashlib
 import threading
 import time
 
+import numpy as np
+
 from copilot import config, trace
 from copilot.kb import get_chunk, load_chunks, search
 from copilot.schemas import Chunk, Retrieval
 
-# Logits from bge-reranker-base. Only a clearly unrelated query falls through.
-MIN_RERANK_LOGIT = -4.0
-_CHROMA = None
-_CHROMA_HASH = ""
-_CHROMA_LOCK = threading.Lock()
+# bge-reranker-base emits logits. Zero is the usual relevant/irrelevant cut.
+MIN_RERANK = 0.0
+_KB_MATRIX: np.ndarray | None = None
+_KB_HASH = ""
+_KB_LOCK = threading.Lock()
 
 _ANALYTICS = "01_retail_operations_sop.md#analytics-rule"
 _PRIORITY = "01_retail_operations_sop.md#priority-rules"
@@ -38,137 +42,89 @@ _RETURNS = "02_pos_pricing_returns_policy.md#returns-and-refunds"
 def gather(masked_text: str, triage: dict, safety: dict) -> Retrieval:
     forced = _required_ids(triage, safety)
     query = _expand_query(masked_text, triage, safety)
-    try:
-        return _hybrid(query, forced)
-    except Exception:
-        return _lexical(query, forced)
-
-
-def _hybrid(query: str, forced: list[str]) -> Retrieval:
-    from copilot.embed import encode, rerank
-
-    candidates = _candidate_map(query, forced)
+    candidates = _candidates(query, forced)
     ordered = list(candidates.values())
-    passages = [chunk.text for chunk, _origin in ordered]
-    logits = rerank(query, passages)
+    from copilot.embed import rerank
+
+    logits = rerank(query, [chunk.text for chunk, _origin in ordered])
     scored = []
     for (chunk, origin), logit in zip(ordered, logits):
-        scored.append({"id": chunk.id, "origin": origin, "rerank": round(logit, 4)})
+        scored.append({"id": chunk.id, "origin": origin, "rerank": round(float(logit), 4)})
     scored.sort(key=lambda item: item["rerank"], reverse=True)
-    passing = [item for item in scored if item["rerank"] >= MIN_RERANK_LOGIT]
-    keep_ids = [item["id"] for item in passing[:5]]
+    passing = [item["id"] for item in scored if item["rerank"] >= MIN_RERANK][:5]
+    keep_ids = list(passing)
     for chunk_id in forced:
         if chunk_id and chunk_id not in keep_ids and get_chunk(chunk_id) is not None:
             keep_ids.append(chunk_id)
-    chunks = [get_chunk(chunk_id) for chunk_id in keep_ids]
-    chunks = [chunk for chunk in chunks if chunk is not None]
-    best = scored[0]["rerank"] if scored else MIN_RERANK_LOGIT - 1
-    return Retrieval(query=query, chunks=chunks, weak=best < MIN_RERANK_LOGIT, scores=scored[:10])
+    chunks = [chunk for chunk in (get_chunk(chunk_id) for chunk_id in keep_ids) if chunk is not None]
+    best = scored[0]["rerank"] if scored else MIN_RERANK - 1
+    return Retrieval(query=query, chunks=chunks, weak=best < MIN_RERANK, scores=scored[:10])
 
 
-def _candidate_map(query: str, forced: list[str]) -> dict[str, tuple[Chunk, str]]:
+def _candidates(query: str, forced: list[str]) -> dict[str, tuple[Chunk, str]]:
     found: dict[str, tuple[Chunk, str]] = {}
     for chunk, _score in search(query, k=10):
-        found.setdefault(chunk.id, (chunk, "bm25"))
-    for chunk in _vector_hits(query, 10):
+        found[chunk.id] = (chunk, "bm25")
+    for chunk, _score in _vector_hits(query, 10):
         if chunk.id in found:
-            origin = found[chunk.id][1]
-            found[chunk.id] = (chunk, origin if origin == "bm25" else "vector")
-            if origin == "bm25":
-                found[chunk.id] = (chunk, "both")
+            found[chunk.id] = (chunk, "both")
         else:
             found[chunk.id] = (chunk, "vector")
     for chunk_id in forced:
         chunk = get_chunk(chunk_id)
-        if chunk is None:
-            continue
-        if chunk.id not in found:
+        if chunk is not None and chunk.id not in found:
             found[chunk.id] = (chunk, "forced")
     return found
 
 
-def _vector_hits(query: str, k: int) -> list[Chunk]:
+def _vector_hits(query: str, k: int) -> list[tuple[Chunk, float]]:
     from copilot.embed import encode
 
-    collection = _collection()
-    vector = encode([query])[0].tolist()
-    result = collection.query(query_embeddings=[vector], n_results=k)
-    ids = (result.get("ids") or [[]])[0]
+    chunks = load_chunks()
+    matrix = _kb_matrix(chunks)
+    if matrix.size == 0:
+        return []
+    query_vector = encode([query], for_retrieval=True)[0]
+    sims = matrix @ query_vector
+    order = np.argsort(-sims)[:k]
     hits = []
-    for chunk_id in ids:
-        chunk = get_chunk(chunk_id)
-        if chunk is not None:
-            hits.append(chunk)
+    for index in order:
+        score = float(sims[int(index)])
+        if score <= 0:
+            continue
+        hits.append((chunks[int(index)], score))
     return hits
 
 
-def _collection():
-    with _CHROMA_LOCK:
-        return _collection_locked()
+def _kb_matrix(chunks: list[Chunk]) -> np.ndarray:
+    with _KB_LOCK:
+        return _kb_matrix_locked(chunks)
 
 
-def _collection_locked():
-    global _CHROMA, _CHROMA_HASH
-    import chromadb
-
-    chunks = load_chunks()
+def _kb_matrix_locked(chunks: list[Chunk]) -> np.ndarray:
+    global _KB_MATRIX, _KB_HASH
     digest = hashlib.sha256()
     for chunk in chunks:
         digest.update(chunk.id.encode("utf-8"))
         digest.update(b"\0")
         digest.update(chunk.text.encode("utf-8"))
     current = digest.hexdigest()
-    path = config.ROOT / ".chroma"
-    path.mkdir(parents=True, exist_ok=True)
-    client = chromadb.PersistentClient(path=str(path))
-    if _CHROMA is not None and _CHROMA_HASH == current:
-        return _CHROMA
-    existing = {item.name for item in client.list_collections()}
-    if "kb_chunks" in existing and _read_hash(path) != current:
-        client.delete_collection("kb_chunks")
-    collection = client.get_or_create_collection(name="kb_chunks", metadata={"hnsw:space": "cosine"})
-    if collection.count() != len(chunks):
+    if _KB_MATRIX is not None and _KB_HASH == current:
+        return _KB_MATRIX
+    path = config.ROOT / ".cache" / "kb_emb.npy"
+    hash_path = config.ROOT / ".cache" / "kb_emb.sha"
+    if path.is_file() and hash_path.is_file() and hash_path.read_text(encoding="utf-8").strip() == current:
+        matrix = np.load(path)
+    else:
         from copilot.embed import encode
 
-        vectors = encode([f"{chunk.heading}\n{chunk.text}" for chunk in chunks])
-        collection.upsert(
-            ids=[chunk.id for chunk in chunks],
-            documents=[chunk.text for chunk in chunks],
-            embeddings=vectors.tolist(),
-        )
-        (path / "kb_hash.txt").write_text(current, encoding="utf-8")
-    _CHROMA = collection
-    _CHROMA_HASH = current
-    return collection
-
-
-def _read_hash(path) -> str:
-    hash_path = path / "kb_hash.txt"
-    if not hash_path.is_file():
-        return ""
-    return hash_path.read_text(encoding="utf-8").strip()
-
-
-def _lexical(query: str, forced: list[str]) -> Retrieval:
-    chunks = []
-    seen = set()
-    for chunk_id in forced:
-        chunk = get_chunk(chunk_id)
-        if chunk is None or chunk.id in seen:
-            continue
-        seen.add(chunk.id)
-        chunks.append(chunk)
-    room = max(config.MAX_CHUNKS - len(chunks), 0)
-    extra_budget = min(config.BM25_EXTRA_HITS, room)
-    if extra_budget:
-        for chunk, _score in search(query, k=extra_budget + len(seen)):
-            if chunk.id in seen:
-                continue
-            seen.add(chunk.id)
-            chunks.append(chunk)
-            if len(chunks) >= len(forced) + extra_budget:
-                break
-    return Retrieval(query=query, chunks=chunks[: config.MAX_CHUNKS], weak=False, scores=[])
+        matrix = encode([f"{chunk.heading}\n{chunk.text}" for chunk in chunks])
+        path.parent.mkdir(parents=True, exist_ok=True)
+        np.save(path, matrix)
+        hash_path.write_text(current, encoding="utf-8")
+    _KB_MATRIX = matrix
+    _KB_HASH = current
+    return matrix
 
 
 def retrieval_node(state: dict) -> dict:

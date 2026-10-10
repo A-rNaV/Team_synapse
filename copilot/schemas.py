@@ -232,7 +232,7 @@ class Escalation(BaseModel):
 
 
 class WorkflowPayload(BaseModel):
-    kind: Literal["ticket", "notify", "vendor_claim"]
+    kind: Literal["ticket", "notify", "vendor_claim", "security_alert"]
     body: dict
 
 

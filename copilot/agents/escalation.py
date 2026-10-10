@@ -87,7 +87,7 @@ def persist(request_id: str, escalation: Escalation, state: dict) -> None:
         _write(f"{request_id}_vendor_claim.json", claim)
     if (state.get("safety") or {}).get("refusal"):
         alert = WorkflowPayload(
-            kind="notify",
+            kind="security_alert",
             body={
                 "ticket_id": ticket_id,
                 "alert": "security_alert",
