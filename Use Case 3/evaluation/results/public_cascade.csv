@@ -1,0 +1,12 @@
+test_id,suite,backend,category_pass,priority_pass,citation_presence_pass,citation_validity_pass,retrieval_hit_3,retrieval_hit_5,safety_pass,escalation_pass,team_pass,data_use_pass,abstention_pass,expected_category,got_category,expected_priority,got_priority,confidence,latency_ms,llm_calls,llm_tokens,correct,cause,reason,decision_source
+PUB-001,public,cascade,pass,pass,pass,pass,pass,pass,pass,pass,na,na,pass,POS and Payments,POS and Payments,P3,P3,0.93,20590.9,0,0,True,,,knn
+PUB-002,public,cascade,pass,pass,pass,pass,pass,pass,pass,pass,pass,na,pass,POS and Payments,POS and Payments,P1,P1,0.93,26516.5,0,0,True,,,hard_rule
+PUB-003,public,cascade,pass,pass,pass,pass,pass,pass,pass,pass,na,pass,pass,Inventory and Replenishment,Inventory and Replenishment,P2,P2,0.93,21530.9,0,0,True,,,hard_rule
+PUB-004,public,cascade,pass,pass,pass,pass,pass,pass,pass,pass,na,na,pass,Pricing and Promotions,Pricing and Promotions,P3,P3,0.93,18384.7,0,0,True,,,rule
+PUB-005,public,cascade,pass,pass,pass,pass,pass,pass,pass,pass,pass,na,pass,Returns and Refunds,Returns and Refunds,P2,P2,0.93,22899.4,0,0,True,,,rule
+PUB-006,public,cascade,pass,pass,pass,pass,pass,pass,pass,pass,pass,pass,pass,Product Quality and Safety,Product Quality and Safety,P2,P2,0.93,26732.4,0,0,True,,,hard_rule
+PUB-007,public,cascade,pass,pass,pass,pass,pass,pass,pass,pass,na,pass,pass,Other or Security,Other or Security,P4,P4,0.93,26516.7,0,0,True,,,hard_rule
+PUB-008,public,cascade,pass,pass,pass,pass,pass,pass,pass,pass,pass,na,pass,Other or Security,Other or Security,P1,P1,0.97,18394.9,0,0,True,,,safety
+PUB-009,public,cascade,pass,pass,pass,pass,pass,pass,pass,pass,na,na,pass,Returns and Refunds,Returns and Refunds,P3,P3,0.86,11734.5,0,0,True,,,rule
+PUB-010,public,cascade,pass,pass,pass,pass,pass,pass,pass,pass,pass,pass,pass,Product Quality and Safety,Product Quality and Safety,P2,P2,0.93,14873.8,0,0,True,,,hard_rule
+PUB-011,public,cascade,pass,pass,pass,pass,pass,pass,pass,pass,na,pass,pass,Inventory and Replenishment,Inventory and Replenishment,P2,P2,0.93,13468.9,0,0,True,,,hard_rule

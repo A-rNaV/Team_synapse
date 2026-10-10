@@ -34,18 +34,30 @@ A whole store or every counter that cannot take cards is "Multiple registers or 
 A shelf, tag, or ticket price that disagrees with the billing screen is the single-SKU pricing row unless many products are affected.
 Out of stock, finished, zero pieces, or "khatam" for a product is the high-demand stock-out row. Academy or warehouse depletion is the warehouse stock-out row.
 Use the analytics row for open-case summaries and for out-of-scope chatter such as cabs, weather, or jokes. Keep confidence low when the request is ambiguous or out of scope.
+A ranking or trend of quality complaints, defects or bad goods by vendor, supplier or product is "Repeated quality complaints without immediate safety risk" with intent analytics. The analytics row is for open-case counts, fill-rate listings and out-of-scope chatter.
 When a labelled example clearly matches, copy that example's matrix_row_id. Copy a without-receipt example only when this issue also says the receipt is missing.
 """
 
 
-def propose(text: str, neighbours: list[dict] | None = None) -> LLMTriage:
-    system = _SYSTEM.format(rows=_row_list())
+def propose(
+    text: str,
+    neighbours: list[dict] | None = None,
+    allowed_rows: list[str] | None = None,
+) -> LLMTriage:
+    system = _SYSTEM.format(rows=_row_list(allowed_rows))
+    if allowed_rows:
+        system += (
+            "\nThe category is already fixed. matrix_row_id must be one of the ids listed above and no other id."
+        )
     user = _user_message(text, neighbours)
     return complete_json(system, user, LLMTriage)
 
 
-def _row_list() -> str:
-    lines = [f'- "{item.value}"' for item in MatrixRowId]
+def _row_list(allowed_rows: list[str] | None = None) -> str:
+    if allowed_rows:
+        lines = [f'- "{item}"' for item in allowed_rows]
+    else:
+        lines = [f'- "{item.value}"' for item in MatrixRowId]
     return "\n".join(lines)
 
 

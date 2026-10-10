@@ -16,7 +16,8 @@ def lookup(masked_text: str, triage: dict, safety: dict) -> DataFindings:
     if intent == "open_high_priority":
         payload = data.open_high_priority(_hours(masked_text))
     elif intent == "stock_root_cause":
-        payload = data.stock_root_cause(triage.get("store_id"), triage.get("sku"))
+        store, sku = _store_and_sku(masked_text, triage)
+        payload = data.stock_root_cause(store, sku)
     elif intent == "short_shipments":
         payload = data.short_shipments(_vendor(masked_text), triage.get("sku"))
     elif intent == "vendor_quality_ranking":
@@ -72,3 +73,22 @@ def _days(text: str) -> int:
 def _vendor(text: str) -> str | None:
     match = re.search(r"\bV\d{3}\b", text, flags=re.IGNORECASE)
     return match.group(0).upper() if match else None
+
+
+def _store_and_sku(text: str, triage: dict) -> tuple[str | None, str | None]:
+    """Re-read the message when triage left the store or the SKU blank."""
+    store = triage.get("store_id") or _store_id(text)
+    sku = triage.get("sku")
+    if store and sku:
+        return store, sku
+    product = data.resolve_sku(text, store_id=store)
+    if not sku and product is not None:
+        sku = product["sku"]
+    if not store:
+        store = _store_id(text)
+    return store, sku
+
+
+def _store_id(text: str) -> str | None:
+    match = re.search(r"\b((?:ST|WH)\d{3})\b", text, flags=re.IGNORECASE)
+    return match.group(1).upper() if match else None

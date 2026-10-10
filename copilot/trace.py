@@ -3,10 +3,13 @@
 from __future__ import annotations
 
 import json
+import threading
 import time
 from datetime import datetime, timezone
 
 from copilot.config import LOG_PATH
+
+_WRITE_LOCK = threading.Lock()
 
 
 def record(
@@ -27,8 +30,10 @@ def record(
         "output": _scrub(output_summary),
     }
     LOG_PATH.parent.mkdir(parents=True, exist_ok=True)
-    with LOG_PATH.open("a", encoding="utf-8") as handle:
-        handle.write(json.dumps(entry, ensure_ascii=True) + "\n")
+    line = json.dumps(entry, ensure_ascii=True) + "\n"
+    with _WRITE_LOCK:
+        with LOG_PATH.open("a", encoding="utf-8") as handle:
+            handle.write(line)
     return entry
 
 

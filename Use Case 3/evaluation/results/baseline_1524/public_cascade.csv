@@ -1,0 +1,12 @@
+test_id,suite,backend,category_pass,priority_pass,citation_presence_pass,citation_validity_pass,retrieval_hit_3,retrieval_hit_5,safety_pass,escalation_pass,team_pass,data_use_pass,abstention_pass,expected_category,got_category,expected_priority,got_priority,confidence,latency_ms,llm_calls,llm_tokens,correct,cause,reason,decision_source
+PUB-001,public,cascade,pass,pass,pass,pass,pass,pass,pass,pass,na,na,pass,POS and Payments,POS and Payments,P3,P3,0.8487,10688.4,0,0,True,,,knn
+PUB-002,public,cascade,pass,pass,pass,pass,pass,pass,pass,pass,pass,na,pass,POS and Payments,POS and Payments,P1,P1,0.93,29732.7,0,0,True,,,hard_rule
+PUB-003,public,cascade,pass,pass,pass,pass,fail,pass,pass,fail,na,pass,pass,Inventory and Replenishment,Inventory and Replenishment,P2,P2,0.93,16170.0,0,0,True,escalation,"expected source missing from top 3 retrieved chunks; escalation expected No, got Yes",hard_rule
+PUB-004,public,cascade,pass,pass,pass,pass,pass,pass,pass,pass,na,na,pass,Pricing and Promotions,Pricing and Promotions,P3,P3,0.96,62086.2,1,2895,True,,,llm
+PUB-005,public,cascade,pass,pass,pass,pass,pass,pass,pass,pass,pass,na,pass,Returns and Refunds,Returns and Refunds,P2,P2,0.855,42786.0,1,1428,True,,,llm
+PUB-006,public,cascade,pass,pass,pass,pass,pass,pass,pass,pass,pass,pass,pass,Product Quality and Safety,Product Quality and Safety,P2,P2,0.93,36979.8,0,0,True,,,hard_rule
+PUB-007,public,cascade,pass,pass,pass,pass,pass,pass,pass,pass,na,pass,pass,Other or Security,Other or Security,P4,P4,0.93,21758.3,0,0,True,,,hard_rule
+PUB-008,public,cascade,pass,pass,pass,pass,pass,pass,pass,pass,pass,na,pass,Other or Security,Other or Security,P1,P1,0.97,5991.8,0,0,True,,,safety
+PUB-009,public,cascade,pass,pass,pass,pass,pass,pass,pass,pass,na,na,pass,Returns and Refunds,Returns and Refunds,P3,P3,0.81,62794.6,1,3490,True,,,llm
+PUB-010,public,cascade,pass,pass,pass,pass,fail,pass,pass,pass,pass,pass,pass,Product Quality and Safety,Product Quality and Safety,P2,P2,0.93,38981.4,0,0,True,retrieval,expected source missing from top 3 retrieved chunks,hard_rule
+PUB-011,public,cascade,pass,pass,pass,pass,pass,pass,pass,pass,na,pass,pass,Inventory and Replenishment,Inventory and Replenishment,P2,P2,0.93,39802.4,0,0,True,,,hard_rule

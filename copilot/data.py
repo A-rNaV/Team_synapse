@@ -28,6 +28,23 @@ QUALITY_REASON = re.compile(
     re.IGNORECASE,
 )
 
+_SKU_CODE = re.compile(r"\b(SKU\d{4})\b", re.IGNORECASE)
+_STORE_CODE = re.compile(r"\b((?:ST|WH)\d{3})\b", re.IGNORECASE)
+_GENERIC_TOKENS = {
+    "junior",
+    "senior",
+    "pro",
+    "club",
+    "elite",
+    "academy",
+    "training",
+    "tournament",
+    "pack",
+    "set",
+    "size",
+}
+_NAME_INDEX: tuple[set[str], list[tuple[list[str], object]]] | None = None
+
 
 def load_frames() -> dict[str, pd.DataFrame]:
     """Read every CSV under data/. employee_master is loaded and never displayed."""
@@ -102,9 +119,12 @@ def trigger_for_labels(category: str, priority: str, issue: str) -> str:
     return "General inquiry or analytics"
 
 
-def resolve_sku(text: str) -> dict | None:
-    """Match a catalog name, a shortened name, a price plus noun, or a seam defect."""
+def resolve_sku(text: str, store_id: str | None = None) -> dict | None:
+    """Match an explicit code, a catalog name, a price plus noun, a seam defect, then a fuzzy name."""
     products = load_frames()["product_master"]
+    by_code = _explicit_sku(text, products)
+    if by_code is not None:
+        return by_code
     lowered = text.lower()
     by_name = _longest_name_in_text(products, lowered)
     if by_name is not None:
@@ -112,7 +132,13 @@ def resolve_sku(text: str) -> dict | None:
     by_price = _price_and_noun(products, text, lowered)
     if by_price is not None:
         return by_price
-    return _sku_for_seam_football(lowered)
+    by_seam = _sku_for_seam_football(lowered)
+    if by_seam is not None:
+        return by_seam
+    if store_id is None:
+        store_match = _STORE_CODE.search(text)
+        store_id = store_match.group(1).upper() if store_match else None
+    return _fuzzy_sku(lowered, store_id)
 
 
 def open_high_priority(hours: int = 24) -> dict:
@@ -467,6 +493,81 @@ def _as_bool(value) -> bool:
     if isinstance(value, bool):
         return value
     return str(value).strip().lower() in {"yes", "true", "1"}
+
+
+def _explicit_sku(text: str, products: pd.DataFrame) -> dict | None:
+    match = _SKU_CODE.search(text)
+    if not match:
+        return None
+    token = match.group(1).upper()
+    hit = products[products["sku"].str.upper() == token]
+    if hit.empty:
+        return None
+    return _product_dict(hit.iloc[0])
+
+
+def _fuzzy_sku(lowered: str, store_id: str | None) -> dict | None:
+    """Fallback only. Score is the share of catalog-name tokens found in the query."""
+    vocab, entries = _product_name_index()
+    query_tokens = {_singular(token, vocab) for token in re.findall(r"[a-z0-9]+", lowered)}
+    if not query_tokens:
+        return None
+    best_score = 0.0
+    tied: list[tuple[float, int, object]] = []
+    for tokens, row in entries:
+        if not tokens:
+            continue
+        matched = [token for token in tokens if token in query_tokens]
+        score = len(matched) / len(tokens)
+        non_generic = sum(1 for token in matched if token not in _GENERIC_TOKENS and not token.isdigit())
+        if score < 0.6 or non_generic < 2:
+            continue
+        if score > best_score + 1e-9:
+            best_score = score
+            tied = [(score, non_generic, row)]
+        elif abs(score - best_score) <= 1e-9:
+            tied.append((score, non_generic, row))
+    if not tied:
+        return None
+    frames = load_frames()
+    winner = min(tied, key=lambda item: _fuzzy_sort_key(item[2], store_id, frames))
+    return _product_dict(winner[2])
+
+
+def _fuzzy_sort_key(row, store_id: str | None, frames: dict[str, pd.DataFrame]) -> tuple:
+    """Lower is better: a row at the named store, then high demand, then more cases, then sku."""
+    sku = str(row.sku)
+    at_store = 0
+    case_count = 0
+    if store_id:
+        inventory = frames["inventory"]
+        stocked = inventory[(inventory["store_id"] == store_id) & (inventory["sku"] == sku)]
+        at_store = 0 if not stocked.empty else 1
+        cases = frames["support_cases"]
+        case_count = int(((cases["store_id"] == store_id) & (cases["sku"] == sku)).sum())
+    high_demand = 0 if str(row.high_demand).strip().lower() == "yes" else 1
+    return (at_store, high_demand, -case_count, sku)
+
+
+def _product_name_index() -> tuple[set[str], list[tuple[list[str], object]]]:
+    global _NAME_INDEX
+    if _NAME_INDEX is not None:
+        return _NAME_INDEX
+    products = load_frames()["product_master"]
+    vocab: set[str] = set()
+    entries: list[tuple[list[str], object]] = []
+    for row in products.itertuples(index=False):
+        tokens = re.findall(r"[a-z0-9]+", str(row.name).lower())
+        vocab.update(tokens)
+        entries.append((tokens, row))
+    _NAME_INDEX = (vocab, entries)
+    return _NAME_INDEX
+
+
+def _singular(token: str, vocab: set[str]) -> str:
+    if token.endswith("s") and token[:-1] in vocab:
+        return token[:-1]
+    return token
 
 
 def _longest_name_in_text(products: pd.DataFrame, lowered: str) -> dict | None:

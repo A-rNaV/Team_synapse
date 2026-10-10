@@ -101,6 +101,9 @@ def main() -> None:
     parser.add_argument("--backend", choices=["rules", "deepseek", "both"], default=None)
     args = parser.parse_args()
 
+    from copilot.warmup import warmup
+
+    warmup()
     load_frames()
     suite_names = list(SUITES) if args.suite == "all" else [args.suite]
     configs = _configs(args)

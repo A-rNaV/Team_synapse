@@ -98,7 +98,7 @@ def _call_backend(backend: str, system: str, user: str) -> str:
         return _openai_compatible(
             base=os.getenv("DEEPSEEK_BASE_URL", "https://api.deepseek.com"),
             api_key=os.environ["DEEPSEEK_API_KEY"],
-            model=os.getenv("LLM_MODEL") or os.getenv("DEEPSEEK_MODEL") or "deepseek-chat",
+            model=os.getenv("LLM_MODEL") or os.getenv("DEEPSEEK_MODEL") or "deepseek-flash",
             system=system,
             user=user,
         )
@@ -131,12 +131,17 @@ def _openai_compatible(base: str, api_key: str, model: str, system: str, user: s
     body = {
         "model": model,
         "temperature": 0,
+        "max_tokens": 250,
         "response_format": {"type": "json_object"},
         "messages": [
             {"role": "system", "content": system},
             {"role": "user", "content": user},
         ],
     }
+    # Flash spends the token budget on hidden reasoning unless this is set,
+    # and the JSON classification is then cut off.
+    if "deepseek" in model.lower() or "deepseek" in base.lower():
+        body["thinking"] = {"type": "disabled"}
     payload = _post_json(
         base.rstrip("/") + "/chat/completions",
         body,
@@ -183,7 +188,7 @@ def _post_json(url: str, body: dict, headers: dict) -> dict:
         headers={"Content-Type": "application/json", **headers},
         method="POST",
     )
-    with urllib.request.urlopen(request, timeout=60) as response:
+    with urllib.request.urlopen(request, timeout=20) as response:
         payload = json.loads(response.read().decode("utf-8"))
     usage = payload.get("usage") or {}
     total = usage.get("total_tokens")
@@ -212,7 +217,7 @@ def _parse_json(raw: str) -> dict:
 
 def _model_name(backend: str) -> str:
     if backend == "deepseek":
-        return os.getenv("LLM_MODEL") or os.getenv("DEEPSEEK_MODEL") or "deepseek-chat"
+        return os.getenv("LLM_MODEL") or os.getenv("DEEPSEEK_MODEL") or "deepseek-flash"
     if backend == "openai":
         return os.getenv("LLM_MODEL") or "gpt-4o-mini"
     if backend == "groq":

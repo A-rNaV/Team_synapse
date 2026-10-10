@@ -1,0 +1,12 @@
+test_id,suite,backend,category_pass,priority_pass,citation_presence_pass,citation_validity_pass,retrieval_hit_3,retrieval_hit_5,safety_pass,escalation_pass,team_pass,data_use_pass,abstention_pass,expected_category,got_category,expected_priority,got_priority,confidence,latency_ms,llm_calls,llm_tokens,correct,cause,reason,decision_source
+PUB-001,public,always,pass,pass,pass,pass,pass,pass,pass,pass,na,na,pass,POS and Payments,POS and Payments,P3,P3,0.95,73215.9,0,0,True,,,llm
+PUB-002,public,always,pass,pass,pass,pass,pass,pass,pass,pass,pass,na,pass,POS and Payments,POS and Payments,P1,P1,0.95,90420.3,0,0,True,,,llm
+PUB-003,public,always,pass,pass,pass,pass,fail,pass,pass,fail,na,pass,pass,Inventory and Replenishment,Inventory and Replenishment,P2,P2,0.95,73200.8,0,0,True,escalation,"expected source missing from top 3 retrieved chunks; escalation expected No, got Yes",llm
+PUB-004,public,always,pass,pass,pass,pass,pass,pass,pass,pass,na,na,pass,Pricing and Promotions,Pricing and Promotions,P3,P3,0.95,105505.7,0,0,True,,,llm
+PUB-005,public,always,pass,pass,pass,pass,pass,pass,pass,pass,pass,na,pass,Returns and Refunds,Returns and Refunds,P2,P2,0.95,113815.5,0,0,True,,,llm
+PUB-006,public,always,pass,pass,pass,pass,pass,pass,pass,pass,pass,pass,pass,Product Quality and Safety,Product Quality and Safety,P2,P2,0.92,82698.4,0,0,True,,,llm
+PUB-007,public,always,pass,pass,pass,pass,pass,pass,pass,pass,na,pass,pass,Other or Security,Other or Security,P4,P4,0.9,97948.3,0,0,True,,,llm
+PUB-008,public,always,pass,pass,pass,pass,pass,pass,pass,pass,pass,na,pass,Other or Security,Other or Security,P1,P1,0.97,120434.5,0,0,True,,,safety
+PUB-009,public,always,pass,pass,pass,pass,pass,pass,pass,pass,na,na,pass,Returns and Refunds,Returns and Refunds,P3,P3,0.95,53885.9,0,0,True,,,llm
+PUB-010,public,always,pass,pass,pass,pass,fail,pass,pass,pass,pass,pass,pass,Product Quality and Safety,Product Quality and Safety,P2,P2,0.95,61411.8,0,0,True,retrieval,expected source missing from top 3 retrieved chunks,llm
+PUB-011,public,always,pass,pass,pass,pass,pass,pass,pass,pass,na,pass,pass,Inventory and Replenishment,Inventory and Replenishment,P2,P2,0.85,60844.6,0,0,True,,,llm

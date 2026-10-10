@@ -1,0 +1,6 @@
+test_id,suite,backend,category_pass,priority_pass,citation_presence_pass,citation_validity_pass,retrieval_hit_3,retrieval_hit_5,safety_pass,escalation_pass,team_pass,data_use_pass,abstention_pass,expected_category,got_category,expected_priority,got_priority,confidence,latency_ms,llm_calls,llm_tokens,correct,cause,reason,decision_source
+ABS-001,abstain,cascade,pass,pass,pass,pass,pass,pass,pass,pass,pass,na,pass,Other or Security,Other or Security,P4,P4,0.18,18441.1,1,1481,True,,,llm
+ABS-002,abstain,cascade,pass,pass,pass,pass,pass,pass,pass,pass,pass,na,pass,Other or Security,Other or Security,P4,P4,0.135,25266.8,1,1724,True,,,llm
+ABS-003,abstain,cascade,pass,pass,pass,pass,pass,pass,pass,pass,pass,na,pass,Other or Security,Other or Security,P4,P4,0.18,11635.8,1,1406,True,,,llm
+ABS-004,abstain,cascade,pass,pass,pass,pass,pass,pass,pass,pass,pass,na,pass,Other or Security,Other or Security,P4,P4,0.225,54283.2,1,4289,True,,,llm
+ABS-005,abstain,cascade,pass,pass,pass,pass,pass,pass,pass,pass,pass,na,pass,Other or Security,Other or Security,P4,P4,0.3878,31685.9,1,1725,True,,,llm

@@ -26,8 +26,11 @@ HASH_PATH = CACHE_DIR / "case_index_hash.txt"
 THRESHOLD_PATH = CACHE_DIR / "knn_thresholds.json"
 
 TOP_K = 7
-CONF_THRESHOLD = 0.75
-SIM_THRESHOLD = 0.85
+CONF_THRESHOLD = 0.60
+SIM_THRESHOLD = 0.75
+INDEX_VERSION = "category-v1"
+_CONF_GRID = (0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85)
+_SIM_GRID = (0.70, 0.75, 0.80, 0.85, 0.90)
 
 _INDEX: "KnnIndex | None" = None
 _INDEX_LOCK = threading.Lock()
@@ -150,55 +153,77 @@ def _build(digest: str) -> KnnIndex:
         keep.append(index)
     rows = [_row(cases.iloc[index]) for index in keep]
     matrix = issue_matrix[keep]
-    conf, sim = _tune(matrix, rows)
     CACHE_DIR.mkdir(parents=True, exist_ok=True)
+    conf, sim = _tune(matrix, rows)
     np.save(EMB_PATH, matrix)
     META_PATH.write_text(json.dumps(rows), encoding="utf-8")
     HASH_PATH.write_text(digest, encoding="utf-8")
-    THRESHOLD_PATH.write_text(
-        json.dumps({"knn_conf": conf, "top1_similarity": sim}),
-        encoding="utf-8",
-    )
     return KnnIndex(matrix=matrix, rows=rows, conf_threshold=conf, sim_threshold=sim)
 
 
 def _tune(matrix: np.ndarray, rows: list[dict]) -> tuple[float, float]:
-    """Pick thresholds on a held-out 20% of support cases, never the eval suites."""
+    """Loosest category-only thresholds on a de-duplicated 20% holdout. Never the eval suites."""
     holdout = [index for index, row in enumerate(rows) if _is_holdout(row["case_id"])]
     train = [index for index in range(len(rows)) if index not in set(holdout)]
+    train_texts = {rows[index]["text"] for index in train}
+    holdout = [index for index in holdout if rows[index]["text"] not in train_texts]
     if len(holdout) < 5 or len(train) < 20:
         return CONF_THRESHOLD, SIM_THRESHOLD
     train_matrix = matrix[train]
     train_rows = [rows[index] for index in train]
-    best = (CONF_THRESHOLD, SIM_THRESHOLD, -1.0)
-    for conf in (0.65, 0.70, 0.75, 0.80, 0.85):
-        for sim in (0.80, 0.85, 0.90):
+    votes = [_vote(matrix[index], train_matrix, train_rows) for index in holdout]
+    labels = [rows[index]["category"] for index in holdout]
+    grid = []
+    for conf in _CONF_GRID:
+        for sim in _SIM_GRID:
+            accepted = 0
             correct = 0
-            for index in holdout:
-                hit = _vote(matrix[index], train_matrix, train_rows)
-                rules = _rules_for(rows[index]["text"])
-                agrees = bool(hit and hit.category == rules[0] and hit.priority == rules[1])
-                accepted = bool(hit) and hit.confidence >= conf and (agrees or hit.top1 >= sim)
-                predicted = (hit.category, hit.priority) if accepted else rules
-                if predicted == (rows[index]["category"], rows[index]["priority"]):
+            for hit, label in zip(votes, labels):
+                if hit is None or hit.confidence < conf or hit.top1 < sim:
+                    continue
+                accepted += 1
+                if hit.category == label:
                     correct += 1
-            accuracy = correct / len(holdout)
-            rank = (accuracy, conf, sim)
-            current = (best[2], best[0], best[1])
-            if rank > current:
-                best = (conf, sim, accuracy)
+            precision = (correct / accepted) if accepted else 0.0
+            coverage = accepted / len(holdout)
+            grid.append(
+                {
+                    "knn_conf": conf,
+                    "top1_similarity": sim,
+                    "precision": round(precision, 4),
+                    "coverage": round(coverage, 4),
+                    "accepted": accepted,
+                    "correct": correct,
+                }
+            )
+    qualified = [item for item in grid if item["accepted"] and item["precision"] >= 0.98]
+    qualified.sort(key=lambda item: (item["knn_conf"], item["top1_similarity"]))
+    chosen = qualified[0] if qualified else {
+        "knn_conf": CONF_THRESHOLD,
+        "top1_similarity": SIM_THRESHOLD,
+        "precision": 0.0,
+        "coverage": 0.0,
+    }
+    _write_tune_report(len(holdout), chosen, grid)
     print(
-        f"kNN holdout accuracy at knn_conf>={best[0]:.2f} "
-        f"top1>={best[1]:.2f}: {best[2]:.1%} on {len(holdout)} cases"
+        f"kNN category precision at knn_conf>={chosen['knn_conf']:.2f} "
+        f"top1>={chosen['top1_similarity']:.2f}: {chosen['precision']:.1%} "
+        f"coverage {chosen['coverage']:.1%} on {len(holdout)} de-duplicated holdout cases"
     )
-    return best[0], best[1]
+    return float(chosen["knn_conf"]), float(chosen["top1_similarity"])
 
 
-def _rules_for(text: str) -> tuple[str, str]:
-    from copilot.agents.triage import classify_rules
-
-    rules = classify_rules(text, {})
-    return rules.category, rules.priority
+def _write_tune_report(holdout_n: int, chosen: dict, grid: list[dict]) -> None:
+    payload = {
+        "knn_conf": chosen["knn_conf"],
+        "top1_similarity": chosen["top1_similarity"],
+        "holdout_n": holdout_n,
+        "precision": chosen.get("precision"),
+        "coverage": chosen.get("coverage"),
+        "index_version": INDEX_VERSION,
+        "grid": grid,
+    }
+    THRESHOLD_PATH.write_text(json.dumps(payload), encoding="utf-8")
 
 
 def _is_holdout(case_id: str) -> bool:
@@ -243,6 +268,8 @@ def _source_hash() -> str:
         digest.update(b"\0")
         digest.update(prompt.encode("utf-8"))
     digest.update(b"\0bge-small-en-v1.5")
+    digest.update(b"\0")
+    digest.update(INDEX_VERSION.encode("utf-8"))
     return digest.hexdigest()
 
 

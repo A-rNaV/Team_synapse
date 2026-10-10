@@ -15,7 +15,8 @@ from pydantic import ValidationError
 
 from copilot import config, trace
 from copilot.agents.llm_triage import propose
-from copilot.data import load_frames, matrix_row, resolve_sku
+from copilot.data import QUALITY_REASON, load_frames, matrix_row, resolve_sku
+from copilot.lexicon import apply_lexicon
 from copilot.llm import LLMUnavailable
 from copilot.schemas import LLMTriage, Triage
 
@@ -24,6 +25,7 @@ STANDARD_RETURN = "Standard return guidance"
 
 STORE_RE = re.compile(r"\b((?:ST|WH)\d{3})\b", re.IGNORECASE)
 INR_RE = re.compile(r"\bINR\s*([0-9][0-9,]*)", re.IGNORECASE)
+_QUALITY_CUE: re.Pattern | None = None
 
 # Checked in this order. The first hit wins.
 _CHECKS = []
@@ -54,36 +56,42 @@ def _classify_always(text: str, safety: dict) -> Triage:
 
 
 def _classify_cascade(text: str, safety: dict) -> Triage:
-    """Safety, then hard rules, then kNN, then DeepSeek only when kNN does not accept."""
+    """Safety, then hard rules, then kNN category, then a confident rule, then DeepSeek."""
     rules = _annotate(classify_rules(text, safety))
     if safety.get("refusal"):
         return _tag(rules, "safety")
-    hit = _knn_hit(text)
     locked = _layer2(text, safety, rules)
     if locked is not None:
-        return locked.model_copy(
-            update={
-                "neighbours": _neighbour_payload(hit),
-                "knn_confidence": None if hit is None else hit.confidence,
-            }
-        )
-    if hit is not None and _knn_accepts(hit, rules, *_knn_thresholds()):
-        return _from_knn(hit, rules, text, source="knn")
+        return locked
+    hit = _knn_hit(text)
+    neighbours = _neighbour_payload(hit)
+    if _category_accepts(hit):
+        chosen = _row_for_knn_category(hit, rules, text)
+        if chosen is not None:
+            return chosen
+    if _rule_stands(rules, hit):
+        tagged = _tag(rules, "rule", neighbours=neighbours)
+        return tagged.model_copy(update={"knn_confidence": None if hit is None else hit.confidence})
     if _skip_model(rules, safety):
-        return _tag(rules, "rules_fallback", neighbours=_neighbour_payload(hit))
+        return _tag(rules, "rules_fallback", neighbours=neighbours)
+    allowed = _allowed_rows(hit.category) if _category_accepts(hit) else None
     try:
-        proposal = propose(text, neighbours=_neighbour_payload(hit))
+        if allowed:
+            proposal = propose(text, neighbours=neighbours, allowed_rows=allowed)
+            if proposal.matrix_row_id.value not in set(allowed):
+                raise ValueError("matrix row is outside the kNN category")
+        else:
+            proposal = propose(text, neighbours=neighbours)
     except (LLMUnavailable, ValidationError, ValueError, urllib.error.URLError, TimeoutError, OSError):
-        if hit is not None:
-            return _from_knn(hit, rules, text, source="rules_fallback")
-        return _tag(rules, "rules_fallback", decision_mode="rule_fallback")
+        return _unavailable(hit, rules)
     return _guard_hard_rules(_ensemble(hit, rules, proposal, text), text, safety)
 
 
 def classify_rules(text: str, safety: dict) -> Triage:
     entities = _entities(text)
+    glossed = apply_lexicon(text)
     for check in _CHECKS:
-        decision = check(text, safety, entities)
+        decision = check(glossed, safety, entities)
         if decision is not None:
             return decision
     return _fallback(entities)
@@ -128,6 +136,7 @@ def triage_node(state: dict) -> dict:
 
 def _layer2(text: str, safety: dict, rules: Triage) -> Triage | None:
     """P1 safety and analytics questions stay with the rules. The model cannot override them."""
+    text = apply_lexicon(text)
     entities = _entities(text)
     forced = _check_injury(text, safety, entities) or _check_storewide_pos(text, safety, entities)
     if forced is not None:
@@ -215,8 +224,111 @@ def _knn_thresholds() -> tuple[float, float]:
 
 
 def _knn_accepts(hit, rules: Triage, conf_threshold: float, sim_threshold: float) -> bool:
+    """Kept for the always-path callers. The cascade uses category acceptance instead."""
     agrees = hit.category == rules.category and hit.priority == rules.priority
     return hit.confidence >= conf_threshold and (agrees or hit.top1 >= sim_threshold)
+
+
+def _category_accepts(hit) -> bool:
+    if hit is None:
+        return False
+    conf_threshold, sim_threshold = _knn_thresholds()
+    return hit.confidence >= conf_threshold and hit.top1 >= sim_threshold
+
+
+def _is_fallback(rules: Triage) -> bool:
+    return rules.trigger == "General inquiry or analytics" and rules.confidence < 0.5
+
+
+def _rule_stands(rules: Triage, hit) -> bool:
+    """A specific high-confidence rule is enough when kNN does not name another category."""
+    if _is_fallback(rules) or rules.confidence < 0.85:
+        return False
+    contradicted = (
+        hit is not None
+        and hit.confidence >= 0.60
+        and hit.top1 >= 0.75
+        and hit.category != rules.category
+    )
+    return not contradicted
+
+
+_SINGLE_ROW = {
+    "Customer Service": "Routine service recovery",
+    "Vendor and Supply Chain": "Repeated or below-90-percent short shipment",
+}
+
+
+def _row_for_knn_category(hit, rules: Triage, text: str) -> Triage | None:
+    """kNN fixes the category. The matrix row comes from the single row, the rules, or None (ask DeepSeek)."""
+    entities = _merge_rule_entities(rules)
+    category = hit.category
+    if rules.category == category and not _is_fallback(rules):
+        intent = rules.intent or _intent_for(category, "triage", entities, text)
+        return _knn_decision(hit, rules, rules.trigger, intent, entities)
+    if category in _SINGLE_ROW:
+        trigger = _SINGLE_ROW[category]
+        intent = _intent_for(category, "triage", entities, text)
+        return _knn_decision(hit, rules, trigger, intent, entities)
+    return None
+
+
+def _knn_decision(hit, rules: Triage, trigger: str, intent: str, entities: dict) -> Triage:
+    if rules.category == hit.category and not _is_fallback(rules):
+        confidence = float(rules.confidence)
+    else:
+        confidence = float(hit.confidence)
+    decision = _from_trigger(
+        trigger,
+        f"Nearest labelled cases are {hit.category}. The matrix row is {trigger}.",
+        entities,
+        intent=intent,
+        confidence=confidence,
+    )
+    return decision.model_copy(
+        update={
+            "decision_source": "knn",
+            "decision_mode": "knn",
+            "knn_confidence": hit.confidence,
+            "neighbours": _neighbour_payload(hit),
+            "llm_called": False,
+            "rules_trigger": rules.trigger,
+            "rules_category": rules.category,
+            "rules_priority": rules.priority,
+            "disagreement": False,
+        }
+    )
+
+
+def _allowed_rows(category: str) -> list[str]:
+    frame = load_frames()["escalation_matrix"]
+    rows = [str(item) for item in frame.loc[frame["category"] == category, "trigger"].tolist()]
+    if category == "Returns and Refunds":
+        rows.append(STANDARD_RETURN)
+    return rows
+
+
+def _unavailable(hit, rules: Triage) -> Triage:
+    """No validated DeepSeek reply. Keep the kNN-category row when we have one, else the rules row."""
+    draft = None
+    if _category_accepts(hit):
+        draft = _row_for_knn_category(hit, rules, "")
+    if draft is None:
+        draft = rules.model_copy(
+            update={
+                "neighbours": _neighbour_payload(hit),
+                "knn_confidence": None if hit is None else hit.confidence,
+            }
+        )
+    return draft.model_copy(
+        update={
+            "decision_source": "llm_unavailable",
+            "decision_mode": "llm_unavailable",
+            "confidence": min(float(draft.confidence), 0.5),
+            "disagreement": True,
+            "llm_called": False,
+        }
+    )
 
 
 def _from_knn(hit, rules: Triage, text: str, source: str) -> Triage:
@@ -252,22 +364,27 @@ def _ensemble(hit, rules: Triage, proposal: LLMTriage, text: str) -> Triage:
     entities = _merge_entities(rules, proposal)
     neighbours = _neighbour_payload(hit)
     knn_conf = 0.0 if hit is None else float(hit.confidence)
-    agreed = hit is not None and hit.trigger == row_id and hit.category == row_category
+    agreed = hit is not None and hit.category == row_category
     if agreed:
         confidence = max(float(proposal.confidence), knn_conf)
-        base = _from_knn(hit, rules, text, source="llm")
     else:
         confidence = float(proposal.confidence) * 0.9
-        if row_category == "Other or Security" and (hit is None or hit.top1 < 0.70):
+        if (
+            row_category == "Other or Security"
+            and proposal.intent != "analytics"
+            and (hit is None or hit.top1 < 0.70)
+        ):
             confidence = min(confidence, 0.5)
-        intent = _intent_for(row_category, proposal.intent, entities)
-        base = _from_trigger(
-            row_id,
-            proposal.reasoning or rules.reasoning,
-            entities,
-            intent=intent,
-            confidence=confidence,
-        )
+    intent = _intent_for(row_category, proposal.intent, entities, text)
+    if not intent and rules.category == row_category:
+        intent = rules.intent
+    base = _from_trigger(
+        row_id,
+        proposal.reasoning or rules.reasoning,
+        entities,
+        intent=intent,
+        confidence=confidence,
+    )
     if confidence < config.CONF_ESCALATE:
         disagreement = True
     else:
@@ -435,24 +552,17 @@ def _valid_store(value: str | None) -> str | None:
 def _valid_sku(value: str | None) -> tuple[str | None, str | None]:
     if not value:
         return None, None
-    token = value.strip().upper()
-    products = load_frames()["product_master"]
-    hit = products[products["sku"].str.upper() == token]
-    if hit.empty:
+    product = resolve_sku(str(value).strip())
+    if product is None:
         return None, None
-    row = hit.iloc[0]
-    return str(row["sku"]), str(row["name"])
+    return product["sku"], product["name"]
 
 
-def _intent_for(category: str, llm_intent: str, entities: dict) -> str:
+def _intent_for(category: str, llm_intent: str, entities: dict, text: str = "") -> str:
     if llm_intent == "policy_question":
         return ""
     if llm_intent == "analytics":
-        if category == "Product Quality and Safety":
-            return "vendor_quality_ranking"
-        if category == "Inventory and Replenishment":
-            return "stock_root_cause"
-        return "open_high_priority"
+        return _analytics_subject(text, category)
     if category == "Inventory and Replenishment":
         return "stock_root_cause"
     if category == "Product Quality and Safety":
@@ -463,6 +573,36 @@ def _intent_for(category: str, llm_intent: str, entities: dict) -> str:
     if category == "Returns and Refunds" and (entities.get("no_receipt") or (amount is not None and amount >= 1000)):
         return "returns_over_threshold"
     return ""
+
+
+def _analytics_subject(text: str, category: str) -> str:
+    """Pick the pandas tool from what the question is about, not from the category alone."""
+    glossed = apply_lexicon(text)
+    if _is_vendor_ranking(glossed):
+        return "vendor_quality_ranking"
+    if re.search(r"fill rate", glossed, re.IGNORECASE) and re.search(
+        r"lowest|worst|which", glossed, re.IGNORECASE
+    ):
+        return "lowest_fill_rate"
+    if re.search(r"two or more|multiple stores|more than one store", glossed, re.IGNORECASE) and re.search(
+        r"out of stock|stock-out|stockout|not available", glossed, re.IGNORECASE
+    ):
+        return "repeated_stockouts"
+    if re.search(r"short shipment|received only", glossed, re.IGNORECASE):
+        return "short_shipments"
+    if re.search(r"last\s+\d+\s+hours|unresolved|grouped by store|open cases", glossed, re.IGNORECASE):
+        return "open_high_priority"
+    if re.search(r"root cause", glossed, re.IGNORECASE):
+        return "stock_root_cause"
+    if category == "Product Quality and Safety":
+        if _has_quality_cue(glossed) and re.search(r"\b(vendor|supplier|brand)\b", glossed, re.IGNORECASE):
+            return "vendor_quality_ranking"
+        return "quality_trend"
+    if category == "Inventory and Replenishment":
+        return "stock_root_cause"
+    if category == "Vendor and Supply Chain":
+        return "short_shipments"
+    return "open_high_priority"
 
 
 def _from_trigger(
@@ -497,13 +637,14 @@ def _from_trigger(
 
 
 def _entities(text: str) -> dict:
+    glossed = apply_lexicon(text)
     stores = [item.upper() for item in STORE_RE.findall(text)]
     amount_match = INR_RE.search(text)
     amount = float(amount_match.group(1).replace(",", "")) if amount_match else None
     product = resolve_sku(text)
-    if re.search(r"\ball registers\b|store-wide|entire store", text, re.IGNORECASE):
+    if re.search(r"\ball registers\b|store-wide|entire store", glossed, re.IGNORECASE):
         scope = "all"
-    elif re.search(r"register\s*\d+|one register|card reader", text, re.IGNORECASE):
+    elif re.search(r"register\s*\d+|one register|card reader", glossed, re.IGNORECASE):
         scope = "one"
     else:
         scope = None
@@ -513,7 +654,7 @@ def _entities(text: str) -> dict:
         "product_name": None if product is None else product["name"],
         "register_scope": scope,
         "refund_amount": amount,
-        "no_receipt": bool(re.search(r"without (a )?receipt|no[- ]receipt", text, re.IGNORECASE)),
+        "no_receipt": bool(re.search(r"without (a )?receipt|no[- ]receipt", glossed, re.IGNORECASE)),
     }
 
 
@@ -595,7 +736,7 @@ def _check_one_register(text: str, safety: dict, entities: dict) -> Triage | Non
 
 
 def _check_vendor_ranking(text: str, safety: dict, entities: dict) -> Triage | None:
-    if not re.search(r"which vendor|most .{0,40}quality complaints", text, re.IGNORECASE):
+    if not _is_vendor_ranking(text):
         return None
     return _from_matrix(
         "Repeated quality complaints without immediate safety risk",
@@ -669,10 +810,49 @@ def _check_short_shipment(text: str, safety: dict, entities: dict) -> Triage | N
     )
 
 
+def _is_vendor_ranking(text: str) -> bool:
+    if re.search(r"which vendor|most .{0,40}quality complaints", text, re.IGNORECASE):
+        return True
+    party = re.search(r"\b(vendors?|suppliers?|brands?)\b", text, re.IGNORECASE)
+    rank = re.search(r"\b(most|top|worst|highest)\b", text, re.IGNORECASE)
+    return bool(party and rank and _has_quality_cue(text))
+
+
+def _has_quality_cue(text: str) -> bool:
+    return _quality_cue_pattern().search(text) is not None
+
+
+def _quality_cue_pattern() -> re.Pattern:
+    global _QUALITY_CUE
+    if _QUALITY_CUE is not None:
+        return _QUALITY_CUE
+    phrases = [
+        "cracked",
+        "split",
+        "warped",
+        "torn",
+        "missing padding",
+        "missing protective padding",
+        "unstable",
+        "unsafe",
+        "bad goods",
+        "defective",
+        "quality complaint",
+        "quality complaints",
+    ]
+    reasons = load_frames()["returns_quality"]["reason"].dropna().astype(str)
+    for reason in reasons.unique():
+        if QUALITY_REASON.search(reason):
+            phrases.append(reason.strip())
+    ordered = sorted(set(phrases), key=len, reverse=True)
+    _QUALITY_CUE = re.compile("|".join(re.escape(phrase) for phrase in ordered), re.IGNORECASE)
+    return _QUALITY_CUE
+
+
 def _check_stock(text: str, safety: dict, entities: dict) -> Triage | None:
     if not re.search(r"out of stock|not available|stock-out|stockout|reorder|root cause", text, re.IGNORECASE):
         return None
-    if re.search(r"academy|warehouse", text, re.IGNORECASE):
+    if re.search(r"academy|warehouse|godown", text, re.IGNORECASE):
         trigger = "Warehouse stock depleted for high-demand or academy-order item"
         reasoning = "An academy or warehouse availability issue is an inventory P2 and uses the root-cause section."
     else:

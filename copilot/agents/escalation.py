@@ -22,6 +22,8 @@ def decide(triage: dict, safety: dict, retrieval: dict | None = None) -> Escalat
         reasons.append("The escalation matrix marks this trigger as human approval required.")
     if (retrieval or {}).get("weak"):
         reasons.append("Retrieval is weak, so a person should confirm the policy section.")
+    if triage.get("decision_source") == "llm_unavailable":
+        reasons.append("DeepSeek is unavailable, so a person must confirm the classification.")
     if triage.get("decision_source") == "hard_rule" and triage.get("disagreement"):
         reasons.append("A hard rule conflicts with the draft decision.")
     required = bool(reasons)

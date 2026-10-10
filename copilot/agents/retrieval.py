@@ -1,8 +1,9 @@
-"""BM25 top-10 plus vector top-10, then the BGE cross-encoder.
+"""BM25 top-6 plus vector top-6, union the citation plan, then the BGE cross-encoder.
 
 The matrix-row section is always kept. Chunk ids stay file.md#section.
-Policy vectors are cached in .cache/kb_emb.npy. A query whose best rerank
-score is below the cutoff is weak and escalates.
+Policy vectors are cached in .cache/kb_emb.npy. Rerank logits on this small
+KB are not calibrated, so a negative best score is weak only when the request
+is out of scope or the matrix section is outside the top 3.
 """
 
 from __future__ import annotations
@@ -10,6 +11,7 @@ from __future__ import annotations
 import hashlib
 import threading
 import time
+from collections import OrderedDict
 
 import numpy as np
 
@@ -19,9 +21,13 @@ from copilot.schemas import Chunk, Retrieval
 
 # bge-reranker-base emits logits. Zero is the usual relevant/irrelevant cut.
 MIN_RERANK = 0.0
+_CANDIDATE_K = 6
 _KB_MATRIX: np.ndarray | None = None
 _KB_HASH = ""
 _KB_LOCK = threading.Lock()
+_RERANK_LOCK = threading.Lock()
+_RERANK_CACHE: OrderedDict[tuple[str, str], float] = OrderedDict()
+_RERANK_MAX = 2048
 
 _ANALYTICS = "01_retail_operations_sop.md#analytics-rule"
 _PRIORITY = "01_retail_operations_sop.md#priority-rules"
@@ -40,32 +46,85 @@ _RETURNS = "02_pos_pricing_returns_policy.md#returns-and-refunds"
 
 
 def gather(masked_text: str, triage: dict, safety: dict) -> Retrieval:
-    forced = _required_ids(triage, safety)
+    forced = _citation_plan(triage, safety)
     query = _expand_query(masked_text, triage, safety)
     candidates = _candidates(query, forced)
     ordered = list(candidates.values())
-    from copilot.embed import rerank
-
-    logits = rerank(query, [chunk.text for chunk, _origin in ordered])
+    logits = _cached_rerank(query, [(chunk.id, chunk.text) for chunk, _origin in ordered])
     scored = []
     for (chunk, origin), logit in zip(ordered, logits):
         scored.append({"id": chunk.id, "origin": origin, "rerank": round(float(logit), 4)})
     scored.sort(key=lambda item: item["rerank"], reverse=True)
-    passing = [item["id"] for item in scored if item["rerank"] >= MIN_RERANK][:5]
-    keep_ids = list(passing)
-    for chunk_id in forced:
-        if chunk_id and chunk_id not in keep_ids and get_chunk(chunk_id) is not None:
-            keep_ids.append(chunk_id)
+    keep_ids = _ordered_ids(forced, scored)
     chunks = [chunk for chunk in (get_chunk(chunk_id) for chunk_id in keep_ids) if chunk is not None]
     best = scored[0]["rerank"] if scored else MIN_RERANK - 1
-    return Retrieval(query=query, chunks=chunks, weak=best < MIN_RERANK, scores=scored[:10])
+    ranked_ids = [item["id"] for item in scored]
+    policy = str(triage.get("policy_source") or "")
+    category = str(triage.get("category") or "")
+    weak = _is_weak(best, category, policy, ranked_ids)
+    return Retrieval(query=query, chunks=chunks, weak=weak, scores=scored[:10])
+
+
+def _is_weak(best: float, category: str, policy: str, ranked_ids: list[str]) -> bool:
+    """Negative logits are weak only out of scope, or when the matrix section is not a top hit."""
+    if best >= MIN_RERANK:
+        return False
+    if category == "Other or Security":
+        return True
+    return policy not in ranked_ids[:3]
+
+
+def _ordered_ids(forced: list[str], scored: list[dict]) -> list[str]:
+    """Citation plan first, then other sections the reranker marked relevant, capped at 5."""
+    keep: list[str] = []
+    for chunk_id in forced:
+        if chunk_id and chunk_id not in keep and get_chunk(chunk_id) is not None:
+            keep.append(chunk_id)
+        if len(keep) >= config.MAX_CITED:
+            return keep[: config.MAX_CITED]
+    for item in scored:
+        if item["rerank"] < MIN_RERANK or item["id"] in keep:
+            continue
+        keep.append(item["id"])
+        if len(keep) >= config.MAX_CITED:
+            break
+    return keep[: config.MAX_CITED]
+
+
+def _cached_rerank(query: str, pairs: list[tuple[str, str]]) -> list[float]:
+    """Reuse logits for a (query, chunk id) pair. Only uncached passages hit the model."""
+    found: dict[str, float] = {}
+    missing: list[tuple[str, str]] = []
+    with _RERANK_LOCK:
+        for chunk_id, _text in pairs:
+            key = (query, chunk_id)
+            cached = _RERANK_CACHE.get(key)
+            if cached is None:
+                missing.append((chunk_id, _text))
+            else:
+                _RERANK_CACHE.move_to_end(key)
+                found[chunk_id] = cached
+    if missing:
+        from copilot.embed import rerank
+
+        logits = rerank(query, [text for _chunk_id, text in missing])
+        with _RERANK_LOCK:
+            for (chunk_id, _text), logit in zip(missing, logits):
+                value = float(logit)
+                key = (query, chunk_id)
+                _RERANK_CACHE[key] = value
+                _RERANK_CACHE.move_to_end(key)
+                while len(_RERANK_CACHE) > _RERANK_MAX:
+                    _RERANK_CACHE.popitem(last=False)
+                found[chunk_id] = value
+    return [found[chunk_id] for chunk_id, _text in pairs]
 
 
 def _candidates(query: str, forced: list[str]) -> dict[str, tuple[Chunk, str]]:
     found: dict[str, tuple[Chunk, str]] = {}
-    for chunk, _score in search(query, k=10):
+    for chunk, _score in search(query, k=_CANDIDATE_K):
         found[chunk.id] = (chunk, "bm25")
-    for chunk, _score in _vector_hits(query, 10):
+    for chunk, _score in _vector_hits(query, _CANDIDATE_K):
         if chunk.id in found:
             found[chunk.id] = (chunk, "both")
         else:
@@ -145,6 +204,7 @@ def retrieval_node(state: dict) -> dict:
             output_summary={
                 "chunk_ids": [chunk.id for chunk in result.chunks],
                 "weak": result.weak,
+                "best_rerank": result.scores[0]["rerank"] if result.scores else None,
                 "scores": result.scores,
             },
         )
@@ -152,25 +212,69 @@ def retrieval_node(state: dict) -> dict:
     return update
 
 
-def _required_ids(triage: dict, safety: dict) -> list[str]:
-    ids = [triage.get("policy_source") or ""]
-    if triage.get("priority") == "P1":
-        ids.append(_PRIORITY)
-    if triage.get("needs_data"):
-        ids.append(_ANALYTICS)
-    if safety.get("pii_masked"):
-        ids.append(_PII)
+# Ranking questions lead with the section that explains the figure. Incidents lead with the matrix row.
+_QUESTION_INTENTS = {
+    "vendor_quality_ranking",
+    "open_high_priority",
+    "lowest_fill_rate",
+    "repeated_stockouts",
+}
+
+# The section whose own text says to cite that evidence for the intent.
+_EVIDENCE = {
+    "stock_root_cause": _SHORT,
+    "vendor_quality_ranking": _VENDOR,
+    "lowest_fill_rate": _VENDOR,
+    "quality_trend": _QUALITY,
+    "short_shipments": _VENDOR,
+    "returns_over_threshold": _APPROVAL,
+    "repeated_stockouts": _STOCK,
+    "open_high_priority": _ANALYTICS,
+}
+
+
+def _citation_plan(triage: dict, safety: dict) -> list[str]:
+    """Forced chunk ids in tier order. gather() reranks, then keeps this order."""
+    intent = str(triage.get("intent") or "")
+    policy = str(triage.get("policy_source") or "")
+    evidence = _EVIDENCE.get(intent, "")
+    addons = _compliance_addons(triage, safety)
+    rest = _intent_sections(triage)
+    if intent in _QUESTION_INTENTS:
+        ordered = [evidence, _ANALYTICS, policy, *addons, *rest]
+    else:
+        ordered = [policy, *addons, evidence]
+        if triage.get("needs_data"):
+            ordered.append(_ANALYTICS)
+        ordered.extend(rest)
+    return _dedupe(ordered)
+
+
+def _compliance_addons(triage: dict, safety: dict) -> list[str]:
+    ids: list[str] = []
     if safety.get("refusal"):
         ids.extend([_INJECTION, _PAYMENT])
+    if triage.get("priority") == "P1":
+        ids.append(_PRIORITY)
+    if safety.get("pii_masked"):
+        ids.append(_PII)
     if triage.get("human_approval_required"):
         ids.append(_APPROVAL)
-    intent = triage.get("intent") or ""
+    return ids
+
+
+def _intent_sections(triage: dict) -> list[str]:
+    """Sections the previous plan attached to an intent or a category, after the evidence tier."""
+    intent = str(triage.get("intent") or "")
+    ids: list[str] = []
     if intent == "stock_root_cause":
         ids.extend([_STOCK, _ROOT, _SHORT, _VENDOR])
     elif intent == "vendor_quality_ranking":
         ids.extend([_VENDOR, _QUALITY])
     elif intent == "quality_trend":
         ids.append(_QUALITY)
+    elif intent == "short_shipments":
+        ids.extend([_SHORT, _VENDOR])
     category = triage.get("category")
     if category == "POS and Payments":
         ids.append(_RUNBOOK)
@@ -178,7 +282,11 @@ def _required_ids(triage: dict, safety: dict) -> list[str]:
         ids.append(_PRICE)
     elif category == "Returns and Refunds":
         ids.append(_RETURNS)
-    ordered = []
+    return ids
+
+
+def _dedupe(ids: list[str]) -> list[str]:
+    ordered: list[str] = []
     for chunk_id in ids:
         if chunk_id and chunk_id not in ordered:
             ordered.append(chunk_id)

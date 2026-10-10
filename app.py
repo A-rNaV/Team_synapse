@@ -11,10 +11,20 @@ import streamlit as st
 from copilot.config import EVAL_DIR, NOW, PREDICTIONS_PATH
 from copilot.data import load_frames
 from copilot.graph import run_turn
+from copilot.warmup import warmup
 
 st.set_page_config(page_title="Retail Operations Copilot", layout="wide")
 st.title("Punjab Sports Mart")
 st.caption(f"Retail Operations Copilot. Business clock: {NOW:%Y-%m-%d %H:%M:%S} IST. Mode: rules only.")
+
+
+@st.cache_resource
+def _warm() -> bool:
+    warmup()
+    return True
+
+
+_warm()
 
 triage_tab, analytics_tab, eval_tab = st.tabs(["Triage", "Analytics", "Eval"])
 

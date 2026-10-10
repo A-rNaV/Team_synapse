@@ -7,6 +7,7 @@ import time
 
 from copilot import trace
 from copilot.agents.safety import mask_text
+from copilot.kb import get_chunk
 from copilot.schemas import CopilotResponse, Escalation
 
 # One short statement per section. Shown only when that section was retrieved.
@@ -71,6 +72,12 @@ POLICY_LINES = {
         "send it to the Store Manager and Product Quality. Injury, recall, or unsafe equipment is P1 and means "
         "quarantine plus escalation. Do not decide the product is safe, and do not accuse the vendor."
     ),
+    "02_pos_pricing_returns_policy.md#customer-recovery": (
+        "For customer inconvenience, the assistant may suggest apology, explanation, and manager review."
+    ),
+    "04_vendor_quality_policy.md#recall-and-safety": (
+        "Any recall or suspected unsafe product requires immediate human escalation."
+    ),
 }
 
 
@@ -94,8 +101,12 @@ def build(state: dict) -> CopilotResponse:
             parts.append("A draft vendor-claim file was written and was not submitted.")
 
     cited: list[str] = []
-    for chunk_id in retrieved_ids:
-        line = _policy_line(chunk_id, triage)
+    policy_source = str(triage.get("policy_source") or "")
+    cite_ids = list(retrieved_ids)
+    if policy_source and policy_source in allowed and policy_source not in cite_ids:
+        cite_ids.append(policy_source)
+    for chunk_id in cite_ids:
+        line = cite_line(chunk_id, triage)
         if line and chunk_id not in cited:
             parts.append(line)
             cited.append(chunk_id)
@@ -133,13 +144,32 @@ def build(state: dict) -> CopilotResponse:
     )
 
 
-def _policy_line(chunk_id: str, triage: dict) -> str | None:
+def cite_line(chunk_id: str, triage: dict) -> str | None:
+    """The hand-written line, or the first sentences of the section when none was written."""
     if chunk_id == "02_pos_pricing_returns_policy.md#pos-card-reader-runbook" and triage.get("priority") == "P1":
         return (
             "The whole store cannot take card payments, so this is P1. Escalate to the Store Manager and POS Support now. "
             "Share the store ID and the time it started. Do not collect full card numbers, CVV, or PIN."
         )
-    return POLICY_LINES.get(chunk_id)
+    written = POLICY_LINES.get(chunk_id)
+    if written:
+        return written
+    return _extractive_line(chunk_id)
+
+
+def _extractive_line(chunk_id: str) -> str | None:
+    chunk = get_chunk(chunk_id)
+    if chunk is None:
+        return None
+    body = chunk.text
+    heading = chunk.heading.strip()
+    if body.startswith(heading):
+        body = body[len(heading) :].lstrip("\n").strip()
+    sentences = re.split(r"(?<=[.!?])\s+", body)
+    kept = [sentence.strip() for sentence in sentences if sentence.strip()][:2]
+    if not kept:
+        return None
+    return " ".join(kept)
 
 
 def verify(answer: str, citations: list[str], allowed: set[str], already_masked: bool) -> tuple[str, list[str], bool]:

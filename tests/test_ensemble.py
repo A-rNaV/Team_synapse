@@ -55,14 +55,14 @@ def test_disagreement_uses_the_model_row_and_asks_a_follow_up(monkeypatch):
             reasoning="English willow is out at ST002.",
         ),
     )
-    decision = classify("bat ka stock khatam ho gaya ST002 english willow", {})
+    decision = classify("Willow pieces are missing from the ST002 cage and nobody logged a count.", {})
     assert decision.category == "Inventory and Replenishment"
     assert decision.priority == "P2"
     assert decision.sku == "SKU1001"
     assert decision.confidence <= 0.6
     assert decision.disagreement
     question = follow_up_question(
-        "bat ka stock khatam ho gaya ST002 english willow",
+        "Willow pieces are missing from the ST002 cage and nobody logged a count.",
         {},
         decision.model_dump(),
     )

@@ -41,5 +41,9 @@ DISCREPANCY_RATIO = 0.20
 
 BM25_EXTRA_HITS = 2
 MAX_CHUNKS = 6
+MAX_CITED = 5
+
+# Shared by the eval workers. Derived from the machine, not from an env var.
+ONNX_THREADS = max(1, (os.cpu_count() or 2) // 4)
 
 LLM_BACKEND = os.getenv("LLM_BACKEND", "RULES_ONLY").strip() or "RULES_ONLY"
